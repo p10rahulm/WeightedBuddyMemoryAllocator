@@ -78,43 +78,43 @@ BN  c	bs	op	    power	B		    KB		    MB
 
 
 
-int isPowerOfTwo(int n){
-    if(n==0)
+int isPowerOfTwo(int n) {
+    if (n == 0)
         return 0;
     return (ceil(log2(n)) == floor(log2(n)));
 }
 
-int bucket_num(int memSizeRequired){
+int bucket_num(int memSizeRequired) {
     int corrected_memsize = correctedSize(memSizeRequired);
-    if(corrected_memsize < MIN_ALLOCATABLE_BYTES){
+    if (corrected_memsize < MIN_ALLOCATABLE_BYTES) {
         printf("The size required is too small\n");
         return -1;
     }
-    if(corrected_memsize > MAX_HEAP_SIZE){
+    if (corrected_memsize > MAX_HEAP_SIZE) {
         printf("The size required is too large\n");
         return -1;
     }
     int logSize = (int) floor(log2((int) corrected_memsize));
     int logMin = (int) log2((int) MIN_ALLOCATABLE_BYTES);
-    if(isPowerOfTwo(corrected_memsize)){
-        return (logSize-logMin)*2;
+    if (isPowerOfTwo(corrected_memsize)) {
+        return (logSize - logMin) * 2;
     } else {
-        return (logSize-logMin)*2 + 1;
+        return (logSize - logMin) * 2 + 1;
     }
 }
 
-int correctedSize(int memSizeinBytes){
+int correctedSize(int memSizeinBytes) {
     //first we decide how much to allocate
-    if(memSizeinBytes>MAX_HEAP_SIZE){
+    if (memSizeinBytes > MAX_HEAP_SIZE) {
         printf("The memory size you have input is too large to fit into inputHeap");
         return -1;
     }
 
     int logSize = (int) ceil(log2((int) memSizeinBytes));
-    int twoPowerLogSize = (int) pow(2,logSize);
+    int twoPowerLogSize = (int) pow(2, logSize);
     int output_size = twoPowerLogSize;
-    if(twoPowerLogSize*3/4>=memSizeinBytes){
-        output_size = twoPowerLogSize*3/4;
+    if (twoPowerLogSize * 3 / 4 >= memSizeinBytes) {
+        output_size = twoPowerLogSize * 3 / 4;
     } else {
         output_size = twoPowerLogSize;
     }
@@ -126,7 +126,7 @@ spHeap *emptySPHeap() {
     spHeap *out = calloc(1, sizeof(spHeap));
     out->smallestBucketSize = 0;
     out->largestBucketSize = 0;
-    out->num_buckets=0;
+    out->num_buckets = 0;
     out->memBuckets = NULL;
     return out;
 }
@@ -135,43 +135,44 @@ spHeap *minSPHeap() {
     spHeap *out = calloc(1, sizeof(spHeap));
     out->smallestBucketSize = MIN_ALLOCATABLE_BYTES;
     out->largestBucketSize = MIN_ALLOCATABLE_BYTES;
-    out->num_buckets=1;
+    out->num_buckets = 1;
     out->memBuckets = calloc(1, sizeof(memBucket));
     out->memBuckets[0].bucketSizeinB = MIN_ALLOCATABLE_BYTES;
     out->memBuckets[0].numMemBlocks = 1;
     out->memBuckets[0].head = calloc(1, sizeof(memBlock));
+    out->memBuckets[0].tail = out->memBuckets[0].head;
 
     out->memBuckets[0].head->next = NULL;
     out->memBuckets[0].head->kval = 0;
     out->memBuckets[0].head->tag = 0;
     out->memBuckets[0].head->type = 0;
-    out->memBuckets[0].head->mem_address = calloc(1,MIN_ALLOCATABLE_BYTES);
+    out->memBuckets[0].head->mem_address = calloc(1, MIN_ALLOCATABLE_BYTES);
     return out;
 }
 
-int get_bucket_size(int bucket_num){
-    int power_of_two = bucket_num/2;
-    if(bucket_num%2==0){
-        int two_power_bucketByTwo =(int)pow(2,power_of_two);
-        return 4*two_power_bucketByTwo;
+int get_bucket_size(int bucket_num) {
+    int power_of_two = bucket_num / 2;
+    if (bucket_num % 2 == 0) {
+        int two_power_bucketByTwo = (int) pow(2, power_of_two);
+        return 4 * two_power_bucketByTwo;
     } else {
-        int two_power_bucketByTwo =(int)pow(2,power_of_two);
-        return 6*two_power_bucketByTwo;
+        int two_power_bucketByTwo = (int) pow(2, power_of_two);
+        return 6 * two_power_bucketByTwo;
     }
 }
 
 spHeap *initialize_memory_structure(int heapBytes) {
-    if(heapBytes<MIN_ALLOCATABLE_BYTES){
+    if (heapBytes < MIN_ALLOCATABLE_BYTES) {
         printf("Error. Number of bytes requested is too low\n");
         return emptySPHeap();
     }
-    if(heapBytes>MAX_HEAP_SIZE){
+    if (heapBytes > MAX_HEAP_SIZE) {
         printf("Error. Number of bytes requested is too large\n");
         return emptySPHeap();
     }
     //error checks
     int heapSizeActual = correctedSize(heapBytes);
-    int num_memory_buckets = bucket_num(heapSizeActual)+1;
+    int num_memory_buckets = bucket_num(heapSizeActual) + 1;
 
     spHeap *out = calloc(1, sizeof(spHeap));
     out->smallestBucketSize = 4;
@@ -179,21 +180,24 @@ spHeap *initialize_memory_structure(int heapBytes) {
     out->num_buckets = num_memory_buckets;
     out->memBuckets = calloc(num_memory_buckets, sizeof(memBucket));
     for (int i = 0; i < num_memory_buckets; ++i) {
-        out->memBuckets[i].numMemBlocks=0;
+        out->memBuckets[i].numMemBlocks = 0;
         out->memBuckets[i].bucketSizeinB = get_bucket_size(i);
-        out->memBuckets[i].head=NULL;
+        out->memBuckets[i].head = NULL;
+        out->memBuckets[i].tail = NULL;
     }
     return out;
 }
-spHeap* initializeMemory(int heapBytes){
-    spHeap* heap = initialize_memory_structure(heapBytes);
-    int last_bucket_num =heap->num_buckets-1;
-    heap->memBuckets[last_bucket_num].numMemBlocks =1;
-    heap->memBuckets[last_bucket_num].head = calloc(1, sizeof(memBlock));
 
+spHeap *initializeMemory(int heapBytes) {
+    spHeap *heap = initialize_memory_structure(heapBytes);
+    int last_bucket_num = heap->num_buckets - 1;
+    heap->memBuckets[last_bucket_num].numMemBlocks = 1;
+    heap->memBuckets[last_bucket_num].head = calloc(1, sizeof(memBlock));
+    heap->memBuckets[last_bucket_num].tail = heap->memBuckets[last_bucket_num].head;
     //Now allocate the memory Block
     heap->memBuckets[last_bucket_num].head->type = 0;
     heap->memBuckets[last_bucket_num].head->next = NULL;
+    heap->memBuckets[last_bucket_num].head->prev = NULL;
     heap->memBuckets[last_bucket_num].head->tag = AVAILABLE;
 
     heap->memBuckets[last_bucket_num].head->kval = last_bucket_num;
@@ -210,27 +214,27 @@ spHeap* initializeMemory(int heapBytes){
     return heap;
 }
 
-void printMemBlock(memBlock* inputBlock){
+void printMemBlock(memBlock *inputBlock) {
     printf("[");
-    printf("addr = %p",inputBlock->mem_address);
+    printf("addr = %p", inputBlock->mem_address);
     printf(", (");
-    printf("kval = %d",inputBlock->kval);
+    printf("kval = %d", inputBlock->kval);
     printf(",");
-    printf("tag = %d",inputBlock->tag);
+    printf("tag = %d", inputBlock->tag);
     printf(",");
-    printf("type = %d",inputBlock->type);
+    printf("type = %d", inputBlock->type);
 
     printf(")]\n");
 
 }
 
 
-void printMemBucket(memBucket* inputBucket){
-    printf("Bucket Size in Bytes = %d\n",inputBucket->bucketSizeinB);
-    printf("Number of Memory Blocks in this bucket = %d\n",inputBucket->numMemBlocks);
-    if(inputBucket->numMemBlocks>0){
-        memBlock* memBlockRover = inputBucket->head;
-        while(memBlockRover){
+void printMemBucket(memBucket *inputBucket) {
+    printf("Bucket Size in Bytes = %d\n", inputBucket->bucketSizeinB);
+    printf("Number of Memory Blocks in this bucket = %d\n", inputBucket->numMemBlocks);
+    if (inputBucket->numMemBlocks > 0) {
+        memBlock *memBlockRover = inputBucket->head;
+        while (memBlockRover) {
             printf("-->\t");
             printMemBlock(memBlockRover);
             memBlockRover = memBlockRover->next;
@@ -239,53 +243,65 @@ void printMemBucket(memBucket* inputBucket){
     }
 }
 
-void printHeap(spHeap* inputHeap){
+void printHeap(spHeap *inputHeap) {
     printf(""
            "\n---------------------------------------------------------------------------------------------"
            "\nDETAILED STUDY OF HEAP THROUGH THE SP HEAP ALLOCATION"
            "\n---------------------------------------------------------------------------------------------\n");
-    printf("Number of Buckets in Heap = %d\n",inputHeap->num_buckets);
-    printf("Smallest Bucket Size in Heap = %d\n",inputHeap->smallestBucketSize);
-    printf("Largest Bucket Size in Heap = %d\n",inputHeap->largestBucketSize);
+    printf("Number of Buckets in Heap = %d\n", inputHeap->num_buckets);
+    printf("Smallest Bucket Size in Heap = %d\n", inputHeap->smallestBucketSize);
+    printf("Largest Bucket Size in Heap = %d\n", inputHeap->largestBucketSize);
     printf("\nNow Printing the Buckets");
 
     for (int i = 0; i < inputHeap->num_buckets; ++i) {
         printf(""
                "\n------------------------------------------------------"
-               "\nBucket No: %d\t",i);
+               "\nBucket No: %d\t", i);
         printMemBucket(&(inputHeap->memBuckets[i]));
         printf("\n------------------------------------------------------");
     }
 
 }
 
-int checkSpaceAvailableInBucket(spHeap* inputHeap,int bucket_num){
-    if(bucket_num<0 || bucket_num>=inputHeap->num_buckets){
+int checkSpaceAvailableInBucket(spHeap *inputHeap, int bucket_num) {
+    if (bucket_num < 0 || bucket_num >= inputHeap->num_buckets) {
         printf("Please check the bucket Number input\n");
         return -1;
     }
-    memBlock* memBlockRover = inputHeap->memBuckets[bucket_num].head;
-    while(memBlockRover){
-        if(memBlockRover->tag==AVAILABLE)
-            return 1;
+    memBlock *memBlockRover = inputHeap->memBuckets[bucket_num].head;
+    while (memBlockRover) {
+        if (memBlockRover->tag == AVAILABLE)
+            return bucket_num;
         memBlockRover = memBlockRover->next;
     }
-    return 0;
+    return -1;
 }
 
-int checkSpaceAvailable(spHeap* inputHeap, int spaceRequired){
-    if(spaceRequired<0 ||spaceRequired > MAX_HEAP_SIZE){
-        printf("Please check the space required that you have input");
+int checkSpaceAvailableBucket(spHeap *inputHeap, int spaceRequired) {
+    if (spaceRequired < 0 || spaceRequired > MAX_HEAP_SIZE) {
+        printf("Please check the space required:%d that you have input\n",spaceRequired);
         return -1;
     }
-    if(spaceRequired>inputHeap->largestBucketSize){
-        printf("The space requested is too high. Please reinitialize a larger Heap\n");
-        return 0;
+    if (spaceRequired < inputHeap->smallestBucketSize) {
+        printf("The space requested:%d is too low. Please request atleast %d bytes\n",spaceRequired,inputHeap->smallestBucketSize);
+        return -1;
+    }
+    if (spaceRequired > inputHeap->largestBucketSize) {
+        printf("The space requested:%d is too high. Please reinitialize a larger Heap\n",spaceRequired);
+        return -1;
     }
     int bucketNum = bucket_num(spaceRequired);
-    int spaceavl = 0;
-    for (int i = bucketNum; i < inputHeap->num_buckets && !spaceavl; ++i) {
-        spaceavl = checkSpaceAvailableInBucket(inputHeap,i);
+    int spaceAvl = -1;
+    for (int i = bucketNum; i < inputHeap->num_buckets && spaceAvl==-1; ++i) {
+        spaceAvl = checkSpaceAvailableInBucket(inputHeap, i);
     }
-    return spaceavl;
+    return spaceAvl;
+}
+
+void* allocateMemory (spHeap *inputHeap, int spaceRequired) {
+    if(checkSpaceAvailableBucket(inputHeap, spaceRequired)!=1){
+        printf("No Space Available. Sorry!\n");
+        return 0;
+    }
+
 }
