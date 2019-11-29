@@ -8,103 +8,104 @@
  * SIZE LIST USED AS BELOW:
  *
 -----------------------------------------------------------
-c	bs	op	    power	B		    KB		    MB
+BN  c	bs	op	    power	B		    KB		    MB
 -----------------------------------------------------------
-1	2	power	28		268435456	262144		256
-3	2	power	26		201326592	196608		192
-1	2	power	27		134217728	131072		128
-3	2	power	25		100663296	98304		96
-1	2	power	26		67108864	65536		64
-3	2	power	24		50331648	49152		48
-1	2	power	25		33554432	32768		32
-3	2	power	23		25165824	24576		24
-1	2	power	24		16777216	16384		16
-3	2	power	22		12582912	12288		12
-1	2	power	23		8388608		8192		8
-3	2	power	21		6291456		6144		6
-1	2	power	22		4194304		4096		4
-3	2	power	20		3145728		3072		3
-1	2	power	21		2097152		2048		2
-3	2	power	19		1572864		1536		1.5
-1	2	power	20		1048576		1024		1
-3	2	power	18		786432		768		    0.75
-1	2	power	19		524288		512		    0.5
-3	2	power	17		393216		384		    0.375
-1	2	power	18		262144		256		    0.25
-3	2	power	16		196608		192		    0.1875
-1	2	power	17		131072		128		    0.125
-3	2	power	15		98304		96		    0.09375
-1	2	power	16		65536		64		    0.0625
-3	2	power	14		49152		48		    0.046875
-1	2	power	15		32768		32		    0.03125
-3	2	power	13		24576		24		    0.0234375
-1	2	power	14		16384		16		    0.015625
-3	2	power	12		12288		12		    0.01171875
-1	2	power	13		8192		8		    0.0078125
-3	2	power	11		6144		6		    0.005859375
-1	2	power	12		4096		4		    0.00390625
-3	2	power	10		3072		3		    0.002929688
-1	2	power	11		2048		2		    0.001953125
-3	2	power	9		1536		1.5		    0.001464844
-1	2	power	10		1024		1		    0.000976563
-3	2	power	8		768		    0.75		0.000732422
-1	2	power	9		512		    0.5		    0.000488281
-3	2	power	7		384		    0.375		0.000366211
-1	2	power	8		256		    0.25		0.000244141
-3	2	power	6		192		    0.1875		0.000183105
-1	2	power	7		128		    0.125		0.00012207
-3	2	power	5		96		    0.09375		9.15527E-05
-1	2	power	6		64		    0.0625		6.10352E-05
-3	2	power	4		48		    0.046875	4.57764E-05
-1	2	power	5		32		    0.03125		3.05176E-05
-3	2	power	3		24		    0.0234375	2.28882E-05
-1	2	power	4		16		    0.015625	1.52588E-05
-3	2	power	2		12		    0.01171875	1.14441E-05
-1	2	power	3		8		    0.0078125	7.62939E-06
-3	2	power	1		6		    0.005859375	5.72205E-06
-1	2	power	2		4		    0.00390625	3.8147E-06
+0	1	2	power	2		4			0.00390625		3.8147E-06
+1	3	2	power	1		6			0.005859375		5.72205E-06
+2	1	2	power	3		8			0.0078125		7.62939E-06
+3	3	2	power	2		12			0.01171875		1.14441E-05
+4	1	2	power	4		16			0.015625		1.52588E-05
+5	3	2	power	3		24			0.0234375		2.28882E-05
+6	1	2	power	5		32			0.03125			3.05176E-05
+7	3	2	power	4		48			0.046875		4.57764E-05
+8	1	2	power	6		64			0.0625			6.10352E-05
+9	3	2	power	5		96			0.09375			9.15527E-05
+10	1	2	power	7		128			0.125			0.00012207
+11	3	2	power	6		192			0.1875			0.000183105
+12	1	2	power	8		256			0.25			0.000244141
+13	3	2	power	7		384			0.375			0.000366211
+14	1	2	power	9		512			0.5				0.000488281
+15	3	2	power	8		768			0.75			0.000732422
+16	1	2	power	10		1024		1				0.000976563
+17	3	2	power	9		1536		1.5				0.001464844
+18	1	2	power	11		2048		2				0.001953125
+19	3	2	power	10		3072		3				0.002929688
+20	1	2	power	12		4096		4				0.00390625
+21	3	2	power	11		6144		6				0.005859375
+22	1	2	power	13		8192		8				0.0078125
+23	3	2	power	12		12288		12				0.01171875
+24	1	2	power	14		16384		16				0.015625
+25	3	2	power	13		24576		24				0.0234375
+26	1	2	power	15		32768		32				0.03125
+27	3	2	power	14		49152		48				0.046875
+28	1	2	power	16		65536		64				0.0625
+29	3	2	power	15		98304		96				0.09375
+30	1	2	power	17		131072		128				0.125
+31	3	2	power	16		196608		192				0.1875
+32	1	2	power	18		262144		256				0.25
+33	3	2	power	17		393216		384				0.375
+34	1	2	power	19		524288		512				0.5
+35	3	2	power	18		786432		768				0.75
+36	1	2	power	20		1048576		1024			1
+37	3	2	power	19		1572864		1536			1.5
+38	1	2	power	21		2097152		2048			2
+39	3	2	power	20		3145728		3072			3
+40	1	2	power	22		4194304		4096			4
+41	3	2	power	21		6291456		6144			6
+42	1	2	power	23		8388608		8192			8
+43	3	2	power	22		12582912	12288			12
+44	1	2	power	24		16777216	16384			16
+45	3	2	power	23		25165824	24576			24
+46	1	2	power	25		33554432	32768			32
+47	3	2	power	24		50331648	49152			48
+48	1	2	power	26		67108864	65536			64
+49	3	2	power	25		100663296	98304			96
+50	1	2	power	27		134217728	131072			128
+51	3	2	power	26		201326592	196608			192
+52	1	2	power	28		268435456	262144			256
 -----------------------------------------------------------
 
 
 
- There are 53 lines above. So our ASL can have 53 elements.
+ There are 53 lines above. So our ASL can have 53 elements numbered 0 to 52.
  In general, if we allocate 2^n MB, we will have
  number of list elements = 37+2n elements
  in ASL list of size 4B and above.
  (4B element, plus two each for each power of 2^n Bytes, one for 1x2^n and one for 3x2^(n-2))
 
+ Note: Buckets of size MIN_ALLOCATABLE_BYTES and MIN_ALLOCATABLE_BYTES*3/2 cannot be split
 */
 
 
 
-typedef struct memory_block {
-    int kval; //stores the n in 2^n
-    int tag;  //1 bit to indicate available (0) or reserved (1)
-    int type; //Indicates whether the type is
-    void *mem_address; //base address of the block. This is what will be returned
-    struct memory_block *next;
-} memBlock;
-
-typedef struct memory_bucket {
-    int bucketSizeinB;
-    int numMemBlock;
-    memBlock *head;
-} memBucket;
-
-typedef struct spHeap {
-    int num_buckets;
-    int smallestBucketSize;
-    int largestBucketSize;
-    memBucket* memBuckets;
-} spHeap;
-
-int bucket_num(int memSizeRequired,spHeap* Heap){
-
+int isPowerOfTwo(int n){
+    if(n==0)
+        return 0;
+    return (ceil(log2(n)) == floor(log2(n)));
 }
 
-int correctedSize(int memSizeinBytes,spHeap* inputHeap){
+int bucket_num(int memSizeRequired){
+    int corrected_memsize = correctedSize(memSizeRequired);
+    if(corrected_memsize < MIN_ALLOCATABLE_BYTES){
+        printf("The size required is too small\n");
+        return -1;
+    }
+    if(corrected_memsize > MAX_HEAP_SIZE){
+        printf("The size required is too large\n");
+        return -1;
+    }
+    int logSize = (int) floor(log2((int) corrected_memsize));
+    int logMin = (int) log2((int) MIN_ALLOCATABLE_BYTES);
+    if(isPowerOfTwo(corrected_memsize)){
+        return (logSize-logMin)*2;
+    } else {
+        return (logSize-logMin)*2 + 1;
+    }
+}
+
+int correctedSize(int memSizeinBytes){
     //first we decide how much to allocate
-    if(memSizeinBytes>inputHeap->largestBucketSize){
+    if(memSizeinBytes>MAX_HEAP_SIZE){
         printf("The memory size you have input is too large to fit into inputHeap");
         return -1;
     }
@@ -120,28 +121,96 @@ int correctedSize(int memSizeinBytes,spHeap* inputHeap){
     return output_size;
 }
 
-spHeap *initialize_memory(int heapSizeInMB) {
-    //error checks
-    int heapSizeActual;
-    heapSizeActual = heapSizeInMB;
-    if (heapSizeInMB < 1) { heapSizeActual = 1; }
-    if (heapSizeInMB > 512) { heapSizeActual = 512; }
 
-    int logHeapSize = (int) ceil(log2((int) heapSizeInMB));
-    int num_memory_buckets = 2 * logHeapSize + 37;
+spHeap *emptySPHeap() {
     spHeap *out = calloc(1, sizeof(spHeap));
+    out->smallestBucketSize = 0;
+    out->largestBucketSize = 0;
+    out->num_buckets=0;
+    out->memBuckets = NULL;
+    return out;
+}
 
+spHeap *minSPHeap() {
+    spHeap *out = calloc(1, sizeof(spHeap));
+    out->smallestBucketSize = MIN_ALLOCATABLE_BYTES;
+    out->largestBucketSize = MIN_ALLOCATABLE_BYTES;
+    out->num_buckets=1;
+    out->memBuckets = calloc(1, sizeof(memBucket));
+    out->memBuckets[0].bucketSizeinB = MIN_ALLOCATABLE_BYTES;
+    out->memBuckets[0].numMemBlock = 1;
+    out->memBuckets[0].head = calloc(1, sizeof(memBlock));
+
+    out->memBuckets[0].head->next = NULL;
+    out->memBuckets[0].head->kval = 0;
+    out->memBuckets[0].head->tag = 0;
+    out->memBuckets[0].head->type = 0;
+    out->memBuckets[0].head->mem_address = calloc(1,MIN_ALLOCATABLE_BYTES);
+    return out;
+}
+
+int get_bucket_size(int bucket_num){
+    int power_of_two = bucket_num/2;
+    if(bucket_num%2==0){
+        int two_power_bucketByTwo =(int)pow(2,power_of_two);
+        return 4*two_power_bucketByTwo;
+    } else {
+        int two_power_bucketByTwo =(int)pow(2,power_of_two);
+        return 6*two_power_bucketByTwo;
+    }
+    return 1;
+}
+
+spHeap *initialize_memory_structure(int heapBytes) {
+    if(heapBytes<MIN_ALLOCATABLE_BYTES){
+        printf("Error. Number of bytes requested is too low\n");
+        return emptySPHeap();
+    }
+    if(heapBytes>MAX_HEAP_SIZE){
+        printf("Error. Number of bytes requested is too large\n");
+        return emptySPHeap();
+    }
+    //error checks
+    int heapSizeActual = correctedSize(heapBytes);
+    int num_memory_buckets = bucket_num(heapSizeActual)+1;
+
+    spHeap *out = calloc(1, sizeof(spHeap));
     out->smallestBucketSize = 4;
-    out->largestBucketSize = 4;
+    out->largestBucketSize = heapSizeActual;
     out->num_buckets = num_memory_buckets;
     out->memBuckets = calloc(num_memory_buckets, sizeof(memBucket));
     for (int i = 0; i < num_memory_buckets; ++i) {
         out->memBuckets[i].numMemBlock=0;
+        out->memBuckets[i].bucketSizeinB = get_bucket_size(i);
         out->memBuckets[i].head=NULL;
     }
-
-
+    return out;
 }
+spHeap* initializeMemory(int heapBytes){
+    spHeap* heap = initialize_memory_structure(heapBytes);
+    int last_bucket_num =heap->num_buckets-1;
+    heap->memBuckets[last_bucket_num].numMemBlock =1;
+    heap->memBuckets[last_bucket_num].head = calloc(1, sizeof(memBlock));
+
+    //Now allocate the memory Block
+    heap->memBuckets[last_bucket_num].head->type = 0;
+    heap->memBuckets[last_bucket_num].head->next = NULL;
+    heap->memBuckets[last_bucket_num].head->tag = AVAILABLE;
+
+    heap->memBuckets[last_bucket_num].head->kval = last_bucket_num;
+
+    // * Above has been slightly modified from Shen's original paper for convenience.
+    // * c*2^k can be represented in 2 ways. Therefore Paper Ambiguous. We store the actual bucket number
+
+    // * We also store the address rather than computing it each time. This is for speed over memory efficiency
+
+    int bucket_size_required = heap->memBuckets[last_bucket_num].bucketSizeinB;
+    //we use malloc rather than calloc, as we are returning large storage size.
+    // Cleaning all of them into 0's may take a long time.
+    heap->memBuckets[last_bucket_num].head->mem_address = malloc(bucket_size_required);
+    return heap;
+}
+
 
 int closest_memory_block_size(int sizeInBytes) {
 
