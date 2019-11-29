@@ -3079,3 +3079,250 @@ memory_request= 1021, correct_size=1024, bucket_num = 16,
 memory_request= 1022, correct_size=1024, bucket_num = 16,
 memory_request= 1023, correct_size=1024, bucket_num = 16,
 memory_request= 1024, correct_size=1024, bucket_num = 16,
+bucket_num= 0, bucket_sizeInB=4
+bucket_num= 1, bucket_sizeInB=6
+bucket_num= 2, bucket_sizeInB=8
+bucket_num= 3, bucket_sizeInB=12
+bucket_num= 4, bucket_sizeInB=16
+bucket_num= 5, bucket_sizeInB=24
+bucket_num= 6, bucket_sizeInB=32
+bucket_num= 7, bucket_sizeInB=48
+bucket_num= 8, bucket_sizeInB=64
+bucket_num= 9, bucket_sizeInB=96
+bucket_num= 10, bucket_sizeInB=128
+bucket_num= 11, bucket_sizeInB=192
+bucket_num= 12, bucket_sizeInB=256
+bucket_num= 13, bucket_sizeInB=384
+bucket_num= 14, bucket_sizeInB=512
+bucket_num= 15, bucket_sizeInB=768
+bucket_num= 16, bucket_sizeInB=1024
+bucket_num= 17, bucket_sizeInB=1536
+bucket_num= 18, bucket_sizeInB=2048
+bucket_num= 19, bucket_sizeInB=3072
+bucket_num= 20, bucket_sizeInB=4096
+bucket_num= 21, bucket_sizeInB=6144
+bucket_num= 22, bucket_sizeInB=8192
+bucket_num= 23, bucket_sizeInB=12288
+bucket_num= 24, bucket_sizeInB=16384
+bucket_num= 25, bucket_sizeInB=24576
+bucket_num= 26, bucket_sizeInB=32768
+bucket_num= 27, bucket_sizeInB=49152
+bucket_num= 28, bucket_sizeInB=65536
+bucket_num= 29, bucket_sizeInB=98304
+bucket_num= 30, bucket_sizeInB=131072
+bucket_num= 31, bucket_sizeInB=196608
+bucket_num= 32, bucket_sizeInB=262144
+bucket_num= 33, bucket_sizeInB=393216
+bucket_num= 34, bucket_sizeInB=524288
+bucket_num= 35, bucket_sizeInB=786432
+bucket_num= 36, bucket_sizeInB=1048576
+bucket_num= 37, bucket_sizeInB=1572864
+bucket_num= 38, bucket_sizeInB=2097152
+bucket_num= 39, bucket_sizeInB=3145728
+bucket_num= 40, bucket_sizeInB=4194304
+bucket_num= 41, bucket_sizeInB=6291456
+bucket_num= 42, bucket_sizeInB=8388608
+bucket_num= 43, bucket_sizeInB=12582912
+bucket_num= 44, bucket_sizeInB=16777216
+bucket_num= 45, bucket_sizeInB=25165824
+bucket_num= 46, bucket_sizeInB=33554432
+bucket_num= 47, bucket_sizeInB=50331648
+bucket_num= 48, bucket_sizeInB=67108864
+bucket_num= 49, bucket_sizeInB=100663296
+bucket_num= 50, bucket_sizeInB=134217728
+bucket_num= 51, bucket_sizeInB=201326592
+bucket_num= 52, bucket_sizeInB=268435456
+bucket_num= 53, bucket_sizeInB=402653184
+bucket_num= 54, bucket_sizeInB=536870912
+bucket_num= 55, bucket_sizeInB=805306368
+
+---------------------------------------------------------------------------------------------
+DETAILED STUDY OF HEAP THROUGH THE SP HEAP ALLOCATION
+---------------------------------------------------------------------------------------------
+Number of Buckets in Heap = 4
+Smallest Bucket Size in Heap = 4
+Largest Bucket Size in Heap = 12
+
+Now Printing the Buckets
+------------------------------------------------------
+Bucket No: 0	Bucket Size in Bytes = 4
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 1	Bucket Size in Bytes = 6
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 2	Bucket Size in Bytes = 8
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 3	Bucket Size in Bytes = 12
+Number of Memory Blocks in this bucket = 1
+-->	[addr = 00000000010875B0, (kval = 3,tag = 0,type = 0)]
+
+------------------------------------------------------
+---------------------------------------------------------------------------------------------
+DETAILED STUDY OF HEAP THROUGH THE SP HEAP ALLOCATION
+---------------------------------------------------------------------------------------------
+Number of Buckets in Heap = 11
+Smallest Bucket Size in Heap = 4
+Largest Bucket Size in Heap = 128
+
+Now Printing the Buckets
+------------------------------------------------------
+Bucket No: 0	Bucket Size in Bytes = 4
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 1	Bucket Size in Bytes = 6
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 2	Bucket Size in Bytes = 8
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 3	Bucket Size in Bytes = 12
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 4	Bucket Size in Bytes = 16
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 5	Bucket Size in Bytes = 24
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 6	Bucket Size in Bytes = 32
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 7	Bucket Size in Bytes = 48
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 8	Bucket Size in Bytes = 64
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 9	Bucket Size in Bytes = 96
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 10	Bucket Size in Bytes = 128
+Number of Memory Blocks in this bucket = 1
+-->	[addr = 00000000010876E0, (kval = 10,tag = 0,type = 0)]
+
+------------------------------------------------------
+---------------------------------------------------------------------------------------------
+DETAILED STUDY OF HEAP THROUGH THE SP HEAP ALLOCATION
+---------------------------------------------------------------------------------------------
+Number of Buckets in Heap = 17
+Smallest Bucket Size in Heap = 4
+Largest Bucket Size in Heap = 1024
+
+Now Printing the Buckets
+------------------------------------------------------
+Bucket No: 0	Bucket Size in Bytes = 4
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 1	Bucket Size in Bytes = 6
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 2	Bucket Size in Bytes = 8
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 3	Bucket Size in Bytes = 12
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 4	Bucket Size in Bytes = 16
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 5	Bucket Size in Bytes = 24
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 6	Bucket Size in Bytes = 32
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 7	Bucket Size in Bytes = 48
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 8	Bucket Size in Bytes = 64
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 9	Bucket Size in Bytes = 96
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 10	Bucket Size in Bytes = 128
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 11	Bucket Size in Bytes = 192
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 12	Bucket Size in Bytes = 256
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 13	Bucket Size in Bytes = 384
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 14	Bucket Size in Bytes = 512
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 15	Bucket Size in Bytes = 768
+Number of Memory Blocks in this bucket = 0
+
+------------------------------------------------------
+------------------------------------------------------
+Bucket No: 16	Bucket Size in Bytes = 1024
+Number of Memory Blocks in this bucket = 1
+-->	[addr = 00000000010878E0, (kval = 16,tag = 0,type = 0)]
+
+------------------------------------------------------
+a+0:000000000066FDD4
+a+1:000000000066FDD8
+a+2:000000000066FDDC

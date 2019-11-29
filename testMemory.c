@@ -6,7 +6,10 @@
 
 int main(){
     printf("Hello, World!\nsizeof(int)=%d\n",sizeof(int));
-
+    int a;
+    printf("\na+0:%p",&a);
+    printf("\na+1:%p",&a+1);
+    printf("\na+2:%p",&a+2);
 
     for (int i = 0; i < 1025; ++i) {
         int heapSizeInMB =  i;
@@ -28,6 +31,13 @@ int main(){
         int bucket_sizeInB = get_bucket_size(i);
         printf("bucket_num= %d, bucket_sizeInB=%d\n",bucket_num,bucket_sizeInB);
     }
+    spHeap* heap1 = initializeMemory(10);
+    printHeap(heap1);
+    spHeap* heap2 = initializeMemory(100);
+    printHeap(heap2);
+    spHeap* heap3 = initializeMemory(1000);
+    printHeap(heap3);
+
 
 
 
