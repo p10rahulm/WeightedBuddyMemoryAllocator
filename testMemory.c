@@ -4,5 +4,6 @@
 #include "spHeap.h"
 
 int main(){
-    printf("Hello World!");
+    printf("Hello, World!\nsizeof(int)=%d\n",sizeof(int));
+
 }
