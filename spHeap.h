@@ -32,6 +32,11 @@ typedef struct spHeap {
     memBucket *memBuckets;
 } spHeap;
 
+typedef struct bucket_block{
+    int bucket_num;
+    memBlock* block;
+} BucketBlock;
+
 
 int correctedSize(int memSizeinBytes);
 
@@ -43,6 +48,8 @@ spHeap *initializeMemory(int heapBytes);
 
 void printHeap(spHeap *inputHeap);
 
-int checkSpaceAvailableBucket(spHeap *inputHeap, int spaceRequired);
+BucketBlock* checkSpaceAvailableBucket(spHeap *inputHeap, int spaceRequired);
+
+void *allocateMemory(spHeap *inputHeap, int spaceRequired);
 
 #endif //WEIGHTEDBUDDYMEMORYALLOCATOR_SPHEAP_H

@@ -12,6 +12,11 @@ int main(){
     printf("\na+1:%p",&a+1);
     printf("\na+2:%p",&a+2);
 
+    void* b = &a;
+    printf("\nb+0:%p",b+0);
+    printf("\nb+1:%p",b+1);
+    printf("\nb+2:%p",b+2);
+
     for (int i = 0; i < 257; ++i) {
         int heapSizeInMB =  i;
         int logHeapSize = (int) ceil(log2((int) heapSizeInMB));
@@ -37,17 +42,24 @@ int main(){
     //Checking Memory Initialization
     spHeap* heap1 = initializeMemory(10);
     printHeap(heap1);
-    spHeap* heap2 = initializeMemory(100);
+    spHeap* heap2 = initializeMemory(50);
     printHeap(heap2);
-    spHeap* heap3 = initializeMemory(1000);
+    spHeap* heap3 = initializeMemory(100);
     printHeap(heap3);
     // Below you can note how, though we requested only 100B, anything between 4B and 128B is accepted as request.
     // This is because 100 is initialized to bucket 128B.
     for (int i = -10; i < 150; ++i) {
-        int spaceavl = checkSpaceAvailableBucket(heap2,i);
+        BucketBlock* spaceAvlBucket = checkSpaceAvailableBucket(heap2,i);
         printf("Requested %d bytes. Space is ",i);
-        if(spaceavl==-1){            printf("not available in Heap2\n");        }
-        if(spaceavl!=-1){            printf("available in bucket %d of Heap 2\n",spaceavl);        }
+        if(!spaceAvlBucket){            printf("not available in Heap2\n");continue;        }
+        printf("available in bucket %d of Heap 2\n",spaceAvlBucket->bucket_num);
+    }
+    for (int i = -10; i < 20; ++i) {
+        int* some_mem = allocateMemory(heap2,i);
+        if(some_mem){
+            printf("\n\nRequested Memory Size = %d, obtained Pointer = %p",i,some_mem);
+            printHeap(heap2);
+        }
     }
 
 

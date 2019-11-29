@@ -131,6 +131,18 @@ spHeap *emptySPHeap() {
     return out;
 }
 
+
+memBlock *createMemBlock(void *address, int kval, int tag, int type, memBlock *prev, memBlock *next) {
+    memBlock *out = calloc(1, sizeof(memBlock));
+    out->kval = kval;
+    out->tag = tag;
+    out->type = type;
+    out->mem_address = address;
+    out->prev = prev;
+    out->next = next;
+    return out;
+}
+
 spHeap *minSPHeap() {
     spHeap *out = calloc(1, sizeof(spHeap));
     out->smallestBucketSize = MIN_ALLOCATABLE_BYTES;
@@ -139,13 +151,8 @@ spHeap *minSPHeap() {
     out->memBuckets = calloc(1, sizeof(memBucket));
     out->memBuckets[0].bucketSizeinB = MIN_ALLOCATABLE_BYTES;
     out->memBuckets[0].numMemBlocks = 1;
-    out->memBuckets[0].head = calloc(1, sizeof(memBlock));
+    out->memBuckets[0].head = createMemBlock(0, 0, 0, 0, NULL, NULL);
     out->memBuckets[0].tail = out->memBuckets[0].head;
-
-    out->memBuckets[0].head->next = NULL;
-    out->memBuckets[0].head->kval = 0;
-    out->memBuckets[0].head->tag = 0;
-    out->memBuckets[0].head->type = 0;
     out->memBuckets[0].head->mem_address = calloc(1, MIN_ALLOCATABLE_BYTES);
     return out;
 }
@@ -192,15 +199,8 @@ spHeap *initializeMemory(int heapBytes) {
     spHeap *heap = initialize_memory_structure(heapBytes);
     int last_bucket_num = heap->num_buckets - 1;
     heap->memBuckets[last_bucket_num].numMemBlocks = 1;
-    heap->memBuckets[last_bucket_num].head = calloc(1, sizeof(memBlock));
+    heap->memBuckets[last_bucket_num].head = createMemBlock(NULL, last_bucket_num, AVAILABLE, 0, NULL, NULL);
     heap->memBuckets[last_bucket_num].tail = heap->memBuckets[last_bucket_num].head;
-    //Now allocate the memory Block
-    heap->memBuckets[last_bucket_num].head->type = 0;
-    heap->memBuckets[last_bucket_num].head->next = NULL;
-    heap->memBuckets[last_bucket_num].head->prev = NULL;
-    heap->memBuckets[last_bucket_num].head->tag = AVAILABLE;
-
-    heap->memBuckets[last_bucket_num].head->kval = last_bucket_num;
 
     // * Above has been slightly modified from Shen's original paper for convenience.
     // * c*2^k can be represented in 2 ways. Therefore Paper Ambiguous. We store the actual bucket number
@@ -224,18 +224,18 @@ void printMemBlock(memBlock *inputBlock) {
     printf(",");
     printf("type = %d", inputBlock->type);
 
-    printf(")]\n");
+    printf(")]");
 
 }
 
 
 void printMemBucket(memBucket *inputBucket) {
     printf("Bucket Size in Bytes = %d\n", inputBucket->bucketSizeinB);
-    printf("Number of Memory Blocks in this bucket = %d\n", inputBucket->numMemBlocks);
+    printf("Number of Memory Blocks in this bucket = %d", inputBucket->numMemBlocks);
     if (inputBucket->numMemBlocks > 0) {
         memBlock *memBlockRover = inputBucket->head;
         while (memBlockRover) {
-            printf("-->\t");
+            printf("\n-->\t");
             printMemBlock(memBlockRover);
             memBlockRover = memBlockRover->next;
 
@@ -258,50 +258,153 @@ void printHeap(spHeap *inputHeap) {
                "\n------------------------------------------------------"
                "\nBucket No: %d\t", i);
         printMemBucket(&(inputHeap->memBuckets[i]));
-        printf("\n------------------------------------------------------");
+
     }
+    printf("\n------------------------------------------------------\n");
 
 }
 
-int checkSpaceAvailableInBucket(spHeap *inputHeap, int bucket_num) {
+BucketBlock *checkSpaceAvailableInBucket(spHeap *inputHeap, int bucket_num) {
     if (bucket_num < 0 || bucket_num >= inputHeap->num_buckets) {
         printf("Please check the bucket Number input\n");
-        return -1;
+        return NULL;
     }
     memBlock *memBlockRover = inputHeap->memBuckets[bucket_num].head;
     while (memBlockRover) {
-        if (memBlockRover->tag == AVAILABLE)
-            return bucket_num;
+        if (memBlockRover->tag == AVAILABLE) {
+            BucketBlock *out = calloc(1, sizeof(BucketBlock));
+            out->bucket_num = bucket_num;
+            out->block = memBlockRover;
+            return out;
+        }
         memBlockRover = memBlockRover->next;
     }
-    return -1;
+    return NULL;
 }
 
-int checkSpaceAvailableBucket(spHeap *inputHeap, int spaceRequired) {
+BucketBlock *checkSpaceAvailableBucket(spHeap *inputHeap, int spaceRequired) {
     if (spaceRequired < 0 || spaceRequired > MAX_HEAP_SIZE) {
-        printf("Please check the space required:%d that you have input\n",spaceRequired);
-        return -1;
+        printf("Please check the space required:%d that you have input\n", spaceRequired);
+        return NULL;
     }
     if (spaceRequired < inputHeap->smallestBucketSize) {
-        printf("The space requested:%d is too low. Please request atleast %d bytes\n",spaceRequired,inputHeap->smallestBucketSize);
-        return -1;
+        printf("The space requested:%d is too low. Please request atleast %d bytes\n", spaceRequired,
+               inputHeap->smallestBucketSize);
+        return NULL;
     }
     if (spaceRequired > inputHeap->largestBucketSize) {
-        printf("The space requested:%d is too high. Please reinitialize a larger Heap\n",spaceRequired);
-        return -1;
+        printf("The space requested:%d is too high. Please reinitialize a larger Heap\n", spaceRequired);
+        return NULL;
     }
     int bucketNum = bucket_num(spaceRequired);
-    int spaceAvl = -1;
-    for (int i = bucketNum; i < inputHeap->num_buckets && spaceAvl==-1; ++i) {
-        spaceAvl = checkSpaceAvailableInBucket(inputHeap, i);
+    BucketBlock *spaceAvlBucket = NULL;
+    for (int i = bucketNum; i < inputHeap->num_buckets && !spaceAvlBucket; ++i) {
+        spaceAvlBucket = checkSpaceAvailableInBucket(inputHeap, i);
     }
-    return spaceAvl;
+    return spaceAvlBucket;
 }
 
-void* allocateMemory (spHeap *inputHeap, int spaceRequired) {
-    if(checkSpaceAvailableBucket(inputHeap, spaceRequired)!=1){
-        printf("No Space Available. Sorry!\n");
-        return 0;
+void addBlockToTail(spHeap *inputHeap, int bucket_num, memBlock *memory_block) {
+    memory_block->prev = inputHeap->memBuckets[bucket_num].tail;
+    memory_block->next = NULL;
+    if(inputHeap->memBuckets[bucket_num].tail){
+        inputHeap->memBuckets[bucket_num].tail->next = memory_block;
+    } else {
+        inputHeap->memBuckets[bucket_num].head = memory_block;
     }
 
+    inputHeap->memBuckets[bucket_num].tail = memory_block;
+    inputHeap->memBuckets[bucket_num].numMemBlocks+=1;
+}
+
+
+void removeCurrentBlock(spHeap *inputHeap, int bucket_num, memBlock *currentBlock){
+    inputHeap->memBuckets[bucket_num].numMemBlocks -= 1;
+    if(inputHeap->memBuckets[bucket_num].numMemBlocks ==0){
+        inputHeap->memBuckets[bucket_num].head=NULL;
+        inputHeap->memBuckets[bucket_num].tail=NULL;
+    }
+    if (currentBlock->prev) { currentBlock->prev->next = currentBlock->next; }
+    if (currentBlock->next) { currentBlock->next->prev = currentBlock->prev; }
+    free(currentBlock);
+}
+BucketBlock *split(spHeap *inputHeap, BucketBlock *bucketHavingSpace, int spaceRequired) {
+    if (bucketHavingSpace->bucket_num == bucket_num(spaceRequired)) { return bucketHavingSpace; }
+    if (bucketHavingSpace->bucket_num < 3) { return bucketHavingSpace; }
+
+
+    memBlock *current_block = bucketHavingSpace->block;
+    int bucket_num = bucketHavingSpace->bucket_num;
+    int current_bucket_size = inputHeap->memBuckets[bucket_num].bucketSizeinB;
+
+
+
+    if (bucket_num % 2 == 0) {
+        memBlock *triple_two_power_n_minus2 = createMemBlock(current_block->mem_address, current_block->kval - 1,
+                                                             AVAILABLE, 3, NULL, NULL);
+        addBlockToTail(inputHeap, current_block->kval - 1, triple_two_power_n_minus2);
+        void *new_pointer = current_block->mem_address;
+        //int address_shift = current_bucket_size >> 2 + current_bucket_size >> 1;
+        int address_shift = current_bucket_size *3/4;
+        new_pointer = new_pointer + address_shift;
+        memBlock *single_two_power_n_minus2 = createMemBlock(new_pointer, current_block->kval - 4, AVAILABLE, 3, NULL,
+                                                             NULL);
+        addBlockToTail(inputHeap, current_block->kval - 4, single_two_power_n_minus2);
+
+
+        if (spaceRequired <= inputHeap->memBuckets[current_block->kval - 4].bucketSizeinB) {
+            bucketHavingSpace->bucket_num = current_block->kval - 4;
+            bucketHavingSpace->block = single_two_power_n_minus2;
+        } else {
+            bucketHavingSpace->bucket_num = current_block->kval - 1;
+            bucketHavingSpace->block = triple_two_power_n_minus2;
+        }
+        removeCurrentBlock(inputHeap, bucket_num, current_block);
+        return split(inputHeap, bucketHavingSpace, spaceRequired);
+
+    } else {
+        memBlock *two_power_n_minus1 = createMemBlock(current_block->mem_address, current_block->kval - 1, AVAILABLE, 2,
+                                                      NULL, NULL);
+        addBlockToTail(inputHeap, current_block->kval - 1, two_power_n_minus1);
+
+        void *new_pointer = current_block->mem_address;
+        int address_shift = (current_bucket_size << 1) / 3;
+        new_pointer = new_pointer + address_shift;
+        memBlock *two_power_n_minus2 = createMemBlock(new_pointer, current_block->kval - 3, AVAILABLE, 1, NULL, NULL);
+        addBlockToTail(inputHeap, current_block->kval - 3, two_power_n_minus2);
+
+
+        if (spaceRequired <= inputHeap->memBuckets[current_block->kval - 3].bucketSizeinB) {
+            bucketHavingSpace->bucket_num = current_block->kval - 3;
+            bucketHavingSpace->block = two_power_n_minus2;
+        } else {
+            bucketHavingSpace->bucket_num = current_block->kval - 1;
+            bucketHavingSpace->block = two_power_n_minus1;
+        }
+        removeCurrentBlock(inputHeap, bucket_num, current_block);
+        return split(inputHeap, bucketHavingSpace, spaceRequired);
+    }
+
+
+}
+
+void *allocateMemory(spHeap *inputHeap, int spaceRequired) {
+    if(spaceRequired>inputHeap->largestBucketSize){
+        printf("The space you requested: %d is too big\n",spaceRequired);
+        return NULL;
+    }
+    if(spaceRequired<inputHeap->smallestBucketSize){
+        printf("The space you requested: %d is too small\n",spaceRequired);
+        return NULL;
+    }
+    BucketBlock *bucketHavingSpace = checkSpaceAvailableBucket(inputHeap, spaceRequired);
+    if (!bucketHavingSpace) {
+        printf("The space you requested: %d is not available. Sorry!\n",spaceRequired);
+        return 0;
+    }
+    BucketBlock *exactBucket = split(inputHeap, bucketHavingSpace, spaceRequired);
+    if (exactBucket->bucket_num == bucket_num(spaceRequired) || exactBucket->bucket_num < 3) {
+        exactBucket->block->tag = RESERVED;
+        return exactBucket->block->mem_address;
+    }
 }

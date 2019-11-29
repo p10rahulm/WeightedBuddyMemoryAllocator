@@ -1,9 +1,12 @@
 Hello, World!
 sizeof(int)=4
 
-a+0:000000000066FDD0
-a+1:000000000066FDD4
-a+2:000000000066FDD8heapSizeInMB= 0, logHeapSize=-2147483648
+a+0:000000000066FDB4
+a+1:000000000066FDB8
+a+2:000000000066FDBC
+b+0:000000000066FDB4
+b+1:000000000066FDB5
+b+2:000000000066FDB6heapSizeInMB= 0, logHeapSize=-2147483648
 heapSizeInMB= 1, logHeapSize=0
 heapSizeInMB= 2, logHeapSize=1
 heapSizeInMB= 3, logHeapSize=2
@@ -846,24 +849,56 @@ Now Printing the Buckets
 ------------------------------------------------------
 Bucket No: 0	Bucket Size in Bytes = 4
 Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
 ------------------------------------------------------
 Bucket No: 1	Bucket Size in Bytes = 6
 Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
 ------------------------------------------------------
 Bucket No: 2	Bucket Size in Bytes = 8
 Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
 ------------------------------------------------------
 Bucket No: 3	Bucket Size in Bytes = 12
 Number of Memory Blocks in this bucket = 1
--->	[addr = 00000000007C75D0, (kval = 3,tag = 0,type = 0)]
-
+-->	[addr = 0000000000C81FF0, (kval = 3,tag = 0,type = 0)]
 ------------------------------------------------------
+
+---------------------------------------------------------------------------------------------
+DETAILED STUDY OF HEAP THROUGH THE SP HEAP ALLOCATION
+---------------------------------------------------------------------------------------------
+Number of Buckets in Heap = 9
+Smallest Bucket Size in Heap = 4
+Largest Bucket Size in Heap = 64
+
+Now Printing the Buckets
+------------------------------------------------------
+Bucket No: 0	Bucket Size in Bytes = 4
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 1	Bucket Size in Bytes = 6
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 2	Bucket Size in Bytes = 8
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 3	Bucket Size in Bytes = 12
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 4	Bucket Size in Bytes = 16
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 5	Bucket Size in Bytes = 24
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 6	Bucket Size in Bytes = 32
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 7	Bucket Size in Bytes = 48
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 8	Bucket Size in Bytes = 64
+Number of Memory Blocks in this bucket = 1
+-->	[addr = 0000000000C87810, (kval = 8,tag = 0,type = 0)]
+------------------------------------------------------
+
 ---------------------------------------------------------------------------------------------
 DETAILED STUDY OF HEAP THROUGH THE SP HEAP ALLOCATION
 ---------------------------------------------------------------------------------------------
@@ -875,153 +910,39 @@ Now Printing the Buckets
 ------------------------------------------------------
 Bucket No: 0	Bucket Size in Bytes = 4
 Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
 ------------------------------------------------------
 Bucket No: 1	Bucket Size in Bytes = 6
 Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
 ------------------------------------------------------
 Bucket No: 2	Bucket Size in Bytes = 8
 Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
 ------------------------------------------------------
 Bucket No: 3	Bucket Size in Bytes = 12
 Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
 ------------------------------------------------------
 Bucket No: 4	Bucket Size in Bytes = 16
 Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
 ------------------------------------------------------
 Bucket No: 5	Bucket Size in Bytes = 24
 Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
 ------------------------------------------------------
 Bucket No: 6	Bucket Size in Bytes = 32
 Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
 ------------------------------------------------------
 Bucket No: 7	Bucket Size in Bytes = 48
 Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
 ------------------------------------------------------
 Bucket No: 8	Bucket Size in Bytes = 64
 Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
 ------------------------------------------------------
 Bucket No: 9	Bucket Size in Bytes = 96
 Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
 ------------------------------------------------------
 Bucket No: 10	Bucket Size in Bytes = 128
 Number of Memory Blocks in this bucket = 1
--->	[addr = 00000000007C7750, (kval = 10,tag = 0,type = 0)]
-
+-->	[addr = 0000000000C87AB0, (kval = 10,tag = 0,type = 0)]
 ------------------------------------------------------
----------------------------------------------------------------------------------------------
-DETAILED STUDY OF HEAP THROUGH THE SP HEAP ALLOCATION
----------------------------------------------------------------------------------------------
-Number of Buckets in Heap = 17
-Smallest Bucket Size in Heap = 4
-Largest Bucket Size in Heap = 1024
-
-Now Printing the Buckets
-------------------------------------------------------
-Bucket No: 0	Bucket Size in Bytes = 4
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 1	Bucket Size in Bytes = 6
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 2	Bucket Size in Bytes = 8
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 3	Bucket Size in Bytes = 12
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 4	Bucket Size in Bytes = 16
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 5	Bucket Size in Bytes = 24
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 6	Bucket Size in Bytes = 32
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 7	Bucket Size in Bytes = 48
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 8	Bucket Size in Bytes = 64
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 9	Bucket Size in Bytes = 96
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 10	Bucket Size in Bytes = 128
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 11	Bucket Size in Bytes = 192
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 12	Bucket Size in Bytes = 256
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 13	Bucket Size in Bytes = 384
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 14	Bucket Size in Bytes = 512
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 15	Bucket Size in Bytes = 768
-Number of Memory Blocks in this bucket = 0
-
-------------------------------------------------------
-------------------------------------------------------
-Bucket No: 16	Bucket Size in Bytes = 1024
-Number of Memory Blocks in this bucket = 1
--->	[addr = 00000000007C79D0, (kval = 16,tag = 0,type = 0)]
-
-------------------------------------------------------Please check the space required:-10 that you have input
+Please check the space required:-10 that you have input
 Requested -10 bytes. Space is not available in Heap2
 Please check the space required:-9 that you have input
 Requested -9 bytes. Space is not available in Heap2
@@ -1049,131 +970,195 @@ The space requested:2 is too low. Please request atleast 4 bytes
 Requested 2 bytes. Space is not available in Heap2
 The space requested:3 is too low. Please request atleast 4 bytes
 Requested 3 bytes. Space is not available in Heap2
-Requested 4 bytes. Space is available in bucket 10 of Heap 2
-Requested 5 bytes. Space is available in bucket 10 of Heap 2
-Requested 6 bytes. Space is available in bucket 10 of Heap 2
-Requested 7 bytes. Space is available in bucket 10 of Heap 2
-Requested 8 bytes. Space is available in bucket 10 of Heap 2
-Requested 9 bytes. Space is available in bucket 10 of Heap 2
-Requested 10 bytes. Space is available in bucket 10 of Heap 2
-Requested 11 bytes. Space is available in bucket 10 of Heap 2
-Requested 12 bytes. Space is available in bucket 10 of Heap 2
-Requested 13 bytes. Space is available in bucket 10 of Heap 2
-Requested 14 bytes. Space is available in bucket 10 of Heap 2
-Requested 15 bytes. Space is available in bucket 10 of Heap 2
-Requested 16 bytes. Space is available in bucket 10 of Heap 2
-Requested 17 bytes. Space is available in bucket 10 of Heap 2
-Requested 18 bytes. Space is available in bucket 10 of Heap 2
-Requested 19 bytes. Space is available in bucket 10 of Heap 2
-Requested 20 bytes. Space is available in bucket 10 of Heap 2
-Requested 21 bytes. Space is available in bucket 10 of Heap 2
-Requested 22 bytes. Space is available in bucket 10 of Heap 2
-Requested 23 bytes. Space is available in bucket 10 of Heap 2
-Requested 24 bytes. Space is available in bucket 10 of Heap 2
-Requested 25 bytes. Space is available in bucket 10 of Heap 2
-Requested 26 bytes. Space is available in bucket 10 of Heap 2
-Requested 27 bytes. Space is available in bucket 10 of Heap 2
-Requested 28 bytes. Space is available in bucket 10 of Heap 2
-Requested 29 bytes. Space is available in bucket 10 of Heap 2
-Requested 30 bytes. Space is available in bucket 10 of Heap 2
-Requested 31 bytes. Space is available in bucket 10 of Heap 2
-Requested 32 bytes. Space is available in bucket 10 of Heap 2
-Requested 33 bytes. Space is available in bucket 10 of Heap 2
-Requested 34 bytes. Space is available in bucket 10 of Heap 2
-Requested 35 bytes. Space is available in bucket 10 of Heap 2
-Requested 36 bytes. Space is available in bucket 10 of Heap 2
-Requested 37 bytes. Space is available in bucket 10 of Heap 2
-Requested 38 bytes. Space is available in bucket 10 of Heap 2
-Requested 39 bytes. Space is available in bucket 10 of Heap 2
-Requested 40 bytes. Space is available in bucket 10 of Heap 2
-Requested 41 bytes. Space is available in bucket 10 of Heap 2
-Requested 42 bytes. Space is available in bucket 10 of Heap 2
-Requested 43 bytes. Space is available in bucket 10 of Heap 2
-Requested 44 bytes. Space is available in bucket 10 of Heap 2
-Requested 45 bytes. Space is available in bucket 10 of Heap 2
-Requested 46 bytes. Space is available in bucket 10 of Heap 2
-Requested 47 bytes. Space is available in bucket 10 of Heap 2
-Requested 48 bytes. Space is available in bucket 10 of Heap 2
-Requested 49 bytes. Space is available in bucket 10 of Heap 2
-Requested 50 bytes. Space is available in bucket 10 of Heap 2
-Requested 51 bytes. Space is available in bucket 10 of Heap 2
-Requested 52 bytes. Space is available in bucket 10 of Heap 2
-Requested 53 bytes. Space is available in bucket 10 of Heap 2
-Requested 54 bytes. Space is available in bucket 10 of Heap 2
-Requested 55 bytes. Space is available in bucket 10 of Heap 2
-Requested 56 bytes. Space is available in bucket 10 of Heap 2
-Requested 57 bytes. Space is available in bucket 10 of Heap 2
-Requested 58 bytes. Space is available in bucket 10 of Heap 2
-Requested 59 bytes. Space is available in bucket 10 of Heap 2
-Requested 60 bytes. Space is available in bucket 10 of Heap 2
-Requested 61 bytes. Space is available in bucket 10 of Heap 2
-Requested 62 bytes. Space is available in bucket 10 of Heap 2
-Requested 63 bytes. Space is available in bucket 10 of Heap 2
-Requested 64 bytes. Space is available in bucket 10 of Heap 2
-Requested 65 bytes. Space is available in bucket 10 of Heap 2
-Requested 66 bytes. Space is available in bucket 10 of Heap 2
-Requested 67 bytes. Space is available in bucket 10 of Heap 2
-Requested 68 bytes. Space is available in bucket 10 of Heap 2
-Requested 69 bytes. Space is available in bucket 10 of Heap 2
-Requested 70 bytes. Space is available in bucket 10 of Heap 2
-Requested 71 bytes. Space is available in bucket 10 of Heap 2
-Requested 72 bytes. Space is available in bucket 10 of Heap 2
-Requested 73 bytes. Space is available in bucket 10 of Heap 2
-Requested 74 bytes. Space is available in bucket 10 of Heap 2
-Requested 75 bytes. Space is available in bucket 10 of Heap 2
-Requested 76 bytes. Space is available in bucket 10 of Heap 2
-Requested 77 bytes. Space is available in bucket 10 of Heap 2
-Requested 78 bytes. Space is available in bucket 10 of Heap 2
-Requested 79 bytes. Space is available in bucket 10 of Heap 2
-Requested 80 bytes. Space is available in bucket 10 of Heap 2
-Requested 81 bytes. Space is available in bucket 10 of Heap 2
-Requested 82 bytes. Space is available in bucket 10 of Heap 2
-Requested 83 bytes. Space is available in bucket 10 of Heap 2
-Requested 84 bytes. Space is available in bucket 10 of Heap 2
-Requested 85 bytes. Space is available in bucket 10 of Heap 2
-Requested 86 bytes. Space is available in bucket 10 of Heap 2
-Requested 87 bytes. Space is available in bucket 10 of Heap 2
-Requested 88 bytes. Space is available in bucket 10 of Heap 2
-Requested 89 bytes. Space is available in bucket 10 of Heap 2
-Requested 90 bytes. Space is available in bucket 10 of Heap 2
-Requested 91 bytes. Space is available in bucket 10 of Heap 2
-Requested 92 bytes. Space is available in bucket 10 of Heap 2
-Requested 93 bytes. Space is available in bucket 10 of Heap 2
-Requested 94 bytes. Space is available in bucket 10 of Heap 2
-Requested 95 bytes. Space is available in bucket 10 of Heap 2
-Requested 96 bytes. Space is available in bucket 10 of Heap 2
-Requested 97 bytes. Space is available in bucket 10 of Heap 2
-Requested 98 bytes. Space is available in bucket 10 of Heap 2
-Requested 99 bytes. Space is available in bucket 10 of Heap 2
-Requested 100 bytes. Space is available in bucket 10 of Heap 2
-Requested 101 bytes. Space is available in bucket 10 of Heap 2
-Requested 102 bytes. Space is available in bucket 10 of Heap 2
-Requested 103 bytes. Space is available in bucket 10 of Heap 2
-Requested 104 bytes. Space is available in bucket 10 of Heap 2
-Requested 105 bytes. Space is available in bucket 10 of Heap 2
-Requested 106 bytes. Space is available in bucket 10 of Heap 2
-Requested 107 bytes. Space is available in bucket 10 of Heap 2
-Requested 108 bytes. Space is available in bucket 10 of Heap 2
-Requested 109 bytes. Space is available in bucket 10 of Heap 2
-Requested 110 bytes. Space is available in bucket 10 of Heap 2
-Requested 111 bytes. Space is available in bucket 10 of Heap 2
-Requested 112 bytes. Space is available in bucket 10 of Heap 2
-Requested 113 bytes. Space is available in bucket 10 of Heap 2
-Requested 114 bytes. Space is available in bucket 10 of Heap 2
-Requested 115 bytes. Space is available in bucket 10 of Heap 2
-Requested 116 bytes. Space is available in bucket 10 of Heap 2
-Requested 117 bytes. Space is available in bucket 10 of Heap 2
-Requested 118 bytes. Space is available in bucket 10 of Heap 2
-Requested 119 bytes. Space is available in bucket 10 of Heap 2
-Requested 120 bytes. Space is available in bucket 10 of Heap 2
-Requested 121 bytes. Space is available in bucket 10 of Heap 2
-Requested 122 bytes. Space is available in bucket 10 of Heap 2
-Requested 123 bytes. Space is available in bucket 10 of Heap 2
-Requested 124 bytes. Space is available in bucket 10 of Heap 2
-Requested 125 bytes. Space is available in bucket 10 of Heap 2
-Requested 126 bytes. Space is available in bucket 10 of Heap 2
-Requested 127 bytes. Space is available in bucket 10 of Heap 2
-Requested 128 bytes. Space is available in bucket 10 of Heap 2
+Requested 4 bytes. Space is available in bucket 8 of Heap 2
+Requested 5 bytes. Space is available in bucket 8 of Heap 2
+Requested 6 bytes. Space is available in bucket 8 of Heap 2
+Requested 7 bytes. Space is available in bucket 8 of Heap 2
+Requested 8 bytes. Space is available in bucket 8 of Heap 2
+Requested 9 bytes. Space is available in bucket 8 of Heap 2
+Requested 10 bytes. Space is available in bucket 8 of Heap 2
+Requested 11 bytes. Space is available in bucket 8 of Heap 2
+Requested 12 bytes. Space is available in bucket 8 of Heap 2
+Requested 13 bytes. Space is available in bucket 8 of Heap 2
+Requested 14 bytes. Space is available in bucket 8 of Heap 2
+Requested 15 bytes. Space is available in bucket 8 of Heap 2
+Requested 16 bytes. Space is available in bucket 8 of Heap 2
+Requested 17 bytes. Space is available in bucket 8 of Heap 2
+Requested 18 bytes. Space is available in bucket 8 of Heap 2
+Requested 19 bytes. Space is available in bucket 8 of Heap 2
+Requested 20 bytes. Space is available in bucket 8 of Heap 2
+Requested 21 bytes. Space is available in bucket 8 of Heap 2
+Requested 22 bytes. Space is available in bucket 8 of Heap 2
+Requested 23 bytes. Space is available in bucket 8 of Heap 2
+Requested 24 bytes. Space is available in bucket 8 of Heap 2
+Requested 25 bytes. Space is available in bucket 8 of Heap 2
+Requested 26 bytes. Space is available in bucket 8 of Heap 2
+Requested 27 bytes. Space is available in bucket 8 of Heap 2
+Requested 28 bytes. Space is available in bucket 8 of Heap 2
+Requested 29 bytes. Space is available in bucket 8 of Heap 2
+Requested 30 bytes. Space is available in bucket 8 of Heap 2
+Requested 31 bytes. Space is available in bucket 8 of Heap 2
+Requested 32 bytes. Space is available in bucket 8 of Heap 2
+Requested 33 bytes. Space is available in bucket 8 of Heap 2
+Requested 34 bytes. Space is available in bucket 8 of Heap 2
+Requested 35 bytes. Space is available in bucket 8 of Heap 2
+Requested 36 bytes. Space is available in bucket 8 of Heap 2
+Requested 37 bytes. Space is available in bucket 8 of Heap 2
+Requested 38 bytes. Space is available in bucket 8 of Heap 2
+Requested 39 bytes. Space is available in bucket 8 of Heap 2
+Requested 40 bytes. Space is available in bucket 8 of Heap 2
+Requested 41 bytes. Space is available in bucket 8 of Heap 2
+Requested 42 bytes. Space is available in bucket 8 of Heap 2
+Requested 43 bytes. Space is available in bucket 8 of Heap 2
+Requested 44 bytes. Space is available in bucket 8 of Heap 2
+Requested 45 bytes. Space is available in bucket 8 of Heap 2
+Requested 46 bytes. Space is available in bucket 8 of Heap 2
+Requested 47 bytes. Space is available in bucket 8 of Heap 2
+Requested 48 bytes. Space is available in bucket 8 of Heap 2
+Requested 49 bytes. Space is available in bucket 8 of Heap 2
+Requested 50 bytes. Space is available in bucket 8 of Heap 2
+Requested 51 bytes. Space is available in bucket 8 of Heap 2
+Requested 52 bytes. Space is available in bucket 8 of Heap 2
+Requested 53 bytes. Space is available in bucket 8 of Heap 2
+Requested 54 bytes. Space is available in bucket 8 of Heap 2
+Requested 55 bytes. Space is available in bucket 8 of Heap 2
+Requested 56 bytes. Space is available in bucket 8 of Heap 2
+Requested 57 bytes. Space is available in bucket 8 of Heap 2
+Requested 58 bytes. Space is available in bucket 8 of Heap 2
+Requested 59 bytes. Space is available in bucket 8 of Heap 2
+Requested 60 bytes. Space is available in bucket 8 of Heap 2
+Requested 61 bytes. Space is available in bucket 8 of Heap 2
+Requested 62 bytes. Space is available in bucket 8 of Heap 2
+Requested 63 bytes. Space is available in bucket 8 of Heap 2
+Requested 64 bytes. Space is available in bucket 8 of Heap 2
+The space requested:65 is too high. Please reinitialize a larger Heap
+Requested 65 bytes. Space is not available in Heap2
+The space requested:66 is too high. Please reinitialize a larger Heap
+Requested 66 bytes. Space is not available in Heap2
+The space requested:67 is too high. Please reinitialize a larger Heap
+Requested 67 bytes. Space is not available in Heap2
+The space requested:68 is too high. Please reinitialize a larger Heap
+Requested 68 bytes. Space is not available in Heap2
+The space requested:69 is too high. Please reinitialize a larger Heap
+Requested 69 bytes. Space is not available in Heap2
+The space requested:70 is too high. Please reinitialize a larger Heap
+Requested 70 bytes. Space is not available in Heap2
+The space requested:71 is too high. Please reinitialize a larger Heap
+Requested 71 bytes. Space is not available in Heap2
+The space requested:72 is too high. Please reinitialize a larger Heap
+Requested 72 bytes. Space is not available in Heap2
+The space requested:73 is too high. Please reinitialize a larger Heap
+Requested 73 bytes. Space is not available in Heap2
+The space requested:74 is too high. Please reinitialize a larger Heap
+Requested 74 bytes. Space is not available in Heap2
+The space requested:75 is too high. Please reinitialize a larger Heap
+Requested 75 bytes. Space is not available in Heap2
+The space requested:76 is too high. Please reinitialize a larger Heap
+Requested 76 bytes. Space is not available in Heap2
+The space requested:77 is too high. Please reinitialize a larger Heap
+Requested 77 bytes. Space is not available in Heap2
+The space requested:78 is too high. Please reinitialize a larger Heap
+Requested 78 bytes. Space is not available in Heap2
+The space requested:79 is too high. Please reinitialize a larger Heap
+Requested 79 bytes. Space is not available in Heap2
+The space requested:80 is too high. Please reinitialize a larger Heap
+Requested 80 bytes. Space is not available in Heap2
+The space requested:81 is too high. Please reinitialize a larger Heap
+Requested 81 bytes. Space is not available in Heap2
+The space requested:82 is too high. Please reinitialize a larger Heap
+Requested 82 bytes. Space is not available in Heap2
+The space requested:83 is too high. Please reinitialize a larger Heap
+Requested 83 bytes. Space is not available in Heap2
+The space requested:84 is too high. Please reinitialize a larger Heap
+Requested 84 bytes. Space is not available in Heap2
+The space requested:85 is too high. Please reinitialize a larger Heap
+Requested 85 bytes. Space is not available in Heap2
+The space requested:86 is too high. Please reinitialize a larger Heap
+Requested 86 bytes. Space is not available in Heap2
+The space requested:87 is too high. Please reinitialize a larger Heap
+Requested 87 bytes. Space is not available in Heap2
+The space requested:88 is too high. Please reinitialize a larger Heap
+Requested 88 bytes. Space is not available in Heap2
+The space requested:89 is too high. Please reinitialize a larger Heap
+Requested 89 bytes. Space is not available in Heap2
+The space requested:90 is too high. Please reinitialize a larger Heap
+Requested 90 bytes. Space is not available in Heap2
+The space requested:91 is too high. Please reinitialize a larger Heap
+Requested 91 bytes. Space is not available in Heap2
+The space requested:92 is too high. Please reinitialize a larger Heap
+Requested 92 bytes. Space is not available in Heap2
+The space requested:93 is too high. Please reinitialize a larger Heap
+Requested 93 bytes. Space is not available in Heap2
+The space requested:94 is too high. Please reinitialize a larger Heap
+Requested 94 bytes. Space is not available in Heap2
+The space requested:95 is too high. Please reinitialize a larger Heap
+Requested 95 bytes. Space is not available in Heap2
+The space requested:96 is too high. Please reinitialize a larger Heap
+Requested 96 bytes. Space is not available in Heap2
+The space requested:97 is too high. Please reinitialize a larger Heap
+Requested 97 bytes. Space is not available in Heap2
+The space requested:98 is too high. Please reinitialize a larger Heap
+Requested 98 bytes. Space is not available in Heap2
+The space requested:99 is too high. Please reinitialize a larger Heap
+Requested 99 bytes. Space is not available in Heap2
+The space requested:100 is too high. Please reinitialize a larger Heap
+Requested 100 bytes. Space is not available in Heap2
+The space requested:101 is too high. Please reinitialize a larger Heap
+Requested 101 bytes. Space is not available in Heap2
+The space requested:102 is too high. Please reinitialize a larger Heap
+Requested 102 bytes. Space is not available in Heap2
+The space requested:103 is too high. Please reinitialize a larger Heap
+Requested 103 bytes. Space is not available in Heap2
+The space requested:104 is too high. Please reinitialize a larger Heap
+Requested 104 bytes. Space is not available in Heap2
+The space requested:105 is too high. Please reinitialize a larger Heap
+Requested 105 bytes. Space is not available in Heap2
+The space requested:106 is too high. Please reinitialize a larger Heap
+Requested 106 bytes. Space is not available in Heap2
+The space requested:107 is too high. Please reinitialize a larger Heap
+Requested 107 bytes. Space is not available in Heap2
+The space requested:108 is too high. Please reinitialize a larger Heap
+Requested 108 bytes. Space is not available in Heap2
+The space requested:109 is too high. Please reinitialize a larger Heap
+Requested 109 bytes. Space is not available in Heap2
+The space requested:110 is too high. Please reinitialize a larger Heap
+Requested 110 bytes. Space is not available in Heap2
+The space requested:111 is too high. Please reinitialize a larger Heap
+Requested 111 bytes. Space is not available in Heap2
+The space requested:112 is too high. Please reinitialize a larger Heap
+Requested 112 bytes. Space is not available in Heap2
+The space requested:113 is too high. Please reinitialize a larger Heap
+Requested 113 bytes. Space is not available in Heap2
+The space requested:114 is too high. Please reinitialize a larger Heap
+Requested 114 bytes. Space is not available in Heap2
+The space requested:115 is too high. Please reinitialize a larger Heap
+Requested 115 bytes. Space is not available in Heap2
+The space requested:116 is too high. Please reinitialize a larger Heap
+Requested 116 bytes. Space is not available in Heap2
+The space requested:117 is too high. Please reinitialize a larger Heap
+Requested 117 bytes. Space is not available in Heap2
+The space requested:118 is too high. Please reinitialize a larger Heap
+Requested 118 bytes. Space is not available in Heap2
+The space requested:119 is too high. Please reinitialize a larger Heap
+Requested 119 bytes. Space is not available in Heap2
+The space requested:120 is too high. Please reinitialize a larger Heap
+Requested 120 bytes. Space is not available in Heap2
+The space requested:121 is too high. Please reinitialize a larger Heap
+Requested 121 bytes. Space is not available in Heap2
+The space requested:122 is too high. Please reinitialize a larger Heap
+Requested 122 bytes. Space is not available in Heap2
+The space requested:123 is too high. Please reinitialize a larger Heap
+Requested 123 bytes. Space is not available in Heap2
+The space requested:124 is too high. Please reinitialize a larger Heap
+Requested 124 bytes. Space is not available in Heap2
+The space requested:125 is too high. Please reinitialize a larger Heap
+Requested 125 bytes. Space is not available in Heap2
+The space requested:126 is too high. Please reinitialize a larger Heap
+Requested 126 bytes. Space is not available in Heap2
+The space requested:127 is too high. Please reinitialize a larger Heap
+Requested 127 bytes. Space is not available in Heap2
+The space requested:128 is too high. Please reinitialize a larger Heap
+Requested 128 bytes. Space is not available in Heap2
 The space requested:129 is too high. Please reinitialize a larger Heap
 Requested 129 bytes. Space is not available in Heap2
 The space requested:130 is too high. Please reinitialize a larger Heap
@@ -1216,3 +1201,302 @@ The space requested:148 is too high. Please reinitialize a larger Heap
 Requested 148 bytes. Space is not available in Heap2
 The space requested:149 is too high. Please reinitialize a larger Heap
 Requested 149 bytes. Space is not available in Heap2
+The space you requested: -10 is too small
+The space you requested: -9 is too small
+The space you requested: -8 is too small
+The space you requested: -7 is too small
+The space you requested: -6 is too small
+The space you requested: -5 is too small
+The space you requested: -4 is too small
+The space you requested: -3 is too small
+The space you requested: -2 is too small
+The space you requested: -1 is too small
+The space you requested: 0 is too small
+The space you requested: 1 is too small
+The space you requested: 2 is too small
+The space you requested: 3 is too small
+
+
+Requested Memory Size = 4, obtained Pointer = 0000000000C8784C
+---------------------------------------------------------------------------------------------
+DETAILED STUDY OF HEAP THROUGH THE SP HEAP ALLOCATION
+---------------------------------------------------------------------------------------------
+Number of Buckets in Heap = 9
+Smallest Bucket Size in Heap = 4
+Largest Bucket Size in Heap = 64
+
+Now Printing the Buckets
+------------------------------------------------------
+Bucket No: 0	Bucket Size in Bytes = 4
+Number of Memory Blocks in this bucket = 1
+-->	[addr = 0000000000C8784C, (kval = 0,tag = 1,type = 3)]
+------------------------------------------------------
+Bucket No: 1	Bucket Size in Bytes = 6
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 2	Bucket Size in Bytes = 8
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 3	Bucket Size in Bytes = 12
+Number of Memory Blocks in this bucket = 1
+-->	[addr = 0000000000C87840, (kval = 3,tag = 0,type = 3)]
+------------------------------------------------------
+Bucket No: 4	Bucket Size in Bytes = 16
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 5	Bucket Size in Bytes = 24
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 6	Bucket Size in Bytes = 32
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 7	Bucket Size in Bytes = 48
+Number of Memory Blocks in this bucket = 1
+-->	[addr = 0000000000C87810, (kval = 7,tag = 0,type = 3)]
+------------------------------------------------------
+Bucket No: 8	Bucket Size in Bytes = 64
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+
+
+Requested Memory Size = 5, obtained Pointer = 0000000000C87840
+---------------------------------------------------------------------------------------------
+DETAILED STUDY OF HEAP THROUGH THE SP HEAP ALLOCATION
+---------------------------------------------------------------------------------------------
+Number of Buckets in Heap = 9
+Smallest Bucket Size in Heap = 4
+Largest Bucket Size in Heap = 64
+
+Now Printing the Buckets
+------------------------------------------------------
+Bucket No: 0	Bucket Size in Bytes = 4
+Number of Memory Blocks in this bucket = 2
+-->	[addr = 0000000000C8784C, (kval = 0,tag = 1,type = 3)]
+-->	[addr = 0000000000C87848, (kval = 0,tag = 0,type = 1)]
+------------------------------------------------------
+Bucket No: 1	Bucket Size in Bytes = 6
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 2	Bucket Size in Bytes = 8
+Number of Memory Blocks in this bucket = 1
+-->	[addr = 0000000000C87840, (kval = 2,tag = 1,type = 2)]
+------------------------------------------------------
+Bucket No: 3	Bucket Size in Bytes = 12
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 4	Bucket Size in Bytes = 16
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 5	Bucket Size in Bytes = 24
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 6	Bucket Size in Bytes = 32
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 7	Bucket Size in Bytes = 48
+Number of Memory Blocks in this bucket = 1
+-->	[addr = 0000000000C87810, (kval = 7,tag = 0,type = 3)]
+------------------------------------------------------
+Bucket No: 8	Bucket Size in Bytes = 64
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+
+
+Requested Memory Size = 6, obtained Pointer = 0000000000C87830
+---------------------------------------------------------------------------------------------
+DETAILED STUDY OF HEAP THROUGH THE SP HEAP ALLOCATION
+---------------------------------------------------------------------------------------------
+Number of Buckets in Heap = 9
+Smallest Bucket Size in Heap = 4
+Largest Bucket Size in Heap = 64
+
+Now Printing the Buckets
+------------------------------------------------------
+Bucket No: 0	Bucket Size in Bytes = 4
+Number of Memory Blocks in this bucket = 4
+-->	[addr = 0000000000C8784C, (kval = 0,tag = 1,type = 3)]
+-->	[addr = 0000000000C87848, (kval = 0,tag = 0,type = 1)]
+-->	[addr = 0000000000C8783C, (kval = 0,tag = 0,type = 3)]
+-->	[addr = 0000000000C87838, (kval = 0,tag = 0,type = 1)]
+------------------------------------------------------
+Bucket No: 1	Bucket Size in Bytes = 6
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 2	Bucket Size in Bytes = 8
+Number of Memory Blocks in this bucket = 2
+-->	[addr = 0000000000C87840, (kval = 2,tag = 1,type = 2)]
+-->	[addr = 0000000000C87830, (kval = 2,tag = 1,type = 2)]
+------------------------------------------------------
+Bucket No: 3	Bucket Size in Bytes = 12
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 4	Bucket Size in Bytes = 16
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 5	Bucket Size in Bytes = 24
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 6	Bucket Size in Bytes = 32
+Number of Memory Blocks in this bucket = 1
+-->	[addr = 0000000000C87810, (kval = 6,tag = 0,type = 2)]
+------------------------------------------------------
+Bucket No: 7	Bucket Size in Bytes = 48
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 8	Bucket Size in Bytes = 64
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+
+
+Requested Memory Size = 7, obtained Pointer = 0000000000C87828
+---------------------------------------------------------------------------------------------
+DETAILED STUDY OF HEAP THROUGH THE SP HEAP ALLOCATION
+---------------------------------------------------------------------------------------------
+Number of Buckets in Heap = 9
+Smallest Bucket Size in Heap = 4
+Largest Bucket Size in Heap = 64
+
+Now Printing the Buckets
+------------------------------------------------------
+Bucket No: 0	Bucket Size in Bytes = 4
+Number of Memory Blocks in this bucket = 4
+-->	[addr = 0000000000C8784C, (kval = 0,tag = 1,type = 3)]
+-->	[addr = 0000000000C87848, (kval = 0,tag = 0,type = 1)]
+-->	[addr = 0000000000C8783C, (kval = 0,tag = 0,type = 3)]
+-->	[addr = 0000000000C87838, (kval = 0,tag = 0,type = 1)]
+------------------------------------------------------
+Bucket No: 1	Bucket Size in Bytes = 6
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 2	Bucket Size in Bytes = 8
+Number of Memory Blocks in this bucket = 3
+-->	[addr = 0000000000C87840, (kval = 2,tag = 1,type = 2)]
+-->	[addr = 0000000000C87830, (kval = 2,tag = 1,type = 2)]
+-->	[addr = 0000000000C87828, (kval = 2,tag = 1,type = 3)]
+------------------------------------------------------
+Bucket No: 3	Bucket Size in Bytes = 12
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 4	Bucket Size in Bytes = 16
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 5	Bucket Size in Bytes = 24
+Number of Memory Blocks in this bucket = 1
+-->	[addr = 0000000000C87810, (kval = 5,tag = 0,type = 3)]
+------------------------------------------------------
+Bucket No: 6	Bucket Size in Bytes = 32
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 7	Bucket Size in Bytes = 48
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 8	Bucket Size in Bytes = 64
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+
+
+Requested Memory Size = 8, obtained Pointer = 0000000000C87820
+---------------------------------------------------------------------------------------------
+DETAILED STUDY OF HEAP THROUGH THE SP HEAP ALLOCATION
+---------------------------------------------------------------------------------------------
+Number of Buckets in Heap = 9
+Smallest Bucket Size in Heap = 4
+Largest Bucket Size in Heap = 64
+
+Now Printing the Buckets
+------------------------------------------------------
+Bucket No: 0	Bucket Size in Bytes = 4
+Number of Memory Blocks in this bucket = 4
+-->	[addr = 0000000000C8784C, (kval = 0,tag = 1,type = 3)]
+-->	[addr = 0000000000C87848, (kval = 0,tag = 0,type = 1)]
+-->	[addr = 0000000000C8783C, (kval = 0,tag = 0,type = 3)]
+-->	[addr = 0000000000C87838, (kval = 0,tag = 0,type = 1)]
+------------------------------------------------------
+Bucket No: 1	Bucket Size in Bytes = 6
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 2	Bucket Size in Bytes = 8
+Number of Memory Blocks in this bucket = 4
+-->	[addr = 0000000000C87840, (kval = 2,tag = 1,type = 2)]
+-->	[addr = 0000000000C87830, (kval = 2,tag = 1,type = 2)]
+-->	[addr = 0000000000C87828, (kval = 2,tag = 1,type = 3)]
+-->	[addr = 0000000000C87820, (kval = 2,tag = 1,type = 1)]
+------------------------------------------------------
+Bucket No: 3	Bucket Size in Bytes = 12
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 4	Bucket Size in Bytes = 16
+Number of Memory Blocks in this bucket = 1
+-->	[addr = 0000000000C87810, (kval = 4,tag = 0,type = 2)]
+------------------------------------------------------
+Bucket No: 5	Bucket Size in Bytes = 24
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 6	Bucket Size in Bytes = 32
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 7	Bucket Size in Bytes = 48
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 8	Bucket Size in Bytes = 64
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+
+
+Requested Memory Size = 9, obtained Pointer = 0000000000C87810
+---------------------------------------------------------------------------------------------
+DETAILED STUDY OF HEAP THROUGH THE SP HEAP ALLOCATION
+---------------------------------------------------------------------------------------------
+Number of Buckets in Heap = 9
+Smallest Bucket Size in Heap = 4
+Largest Bucket Size in Heap = 64
+
+Now Printing the Buckets
+------------------------------------------------------
+Bucket No: 0	Bucket Size in Bytes = 4
+Number of Memory Blocks in this bucket = 5
+-->	[addr = 0000000000C8784C, (kval = 0,tag = 1,type = 3)]
+-->	[addr = 0000000000C87848, (kval = 0,tag = 0,type = 1)]
+-->	[addr = 0000000000C8783C, (kval = 0,tag = 0,type = 3)]
+-->	[addr = 0000000000C87838, (kval = 0,tag = 0,type = 1)]
+-->	[addr = 0000000000C8781C, (kval = 0,tag = 0,type = 3)]
+------------------------------------------------------
+Bucket No: 1	Bucket Size in Bytes = 6
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 2	Bucket Size in Bytes = 8
+Number of Memory Blocks in this bucket = 4
+-->	[addr = 0000000000C87840, (kval = 2,tag = 1,type = 2)]
+-->	[addr = 0000000000C87830, (kval = 2,tag = 1,type = 2)]
+-->	[addr = 0000000000C87828, (kval = 2,tag = 1,type = 3)]
+-->	[addr = 0000000000C87820, (kval = 2,tag = 1,type = 1)]
+------------------------------------------------------
+Bucket No: 3	Bucket Size in Bytes = 12
+Number of Memory Blocks in this bucket = 1
+-->	[addr = 0000000000C87810, (kval = 3,tag = 1,type = 3)]
+------------------------------------------------------
+Bucket No: 4	Bucket Size in Bytes = 16
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 5	Bucket Size in Bytes = 24
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 6	Bucket Size in Bytes = 32
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 7	Bucket Size in Bytes = 48
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+Bucket No: 8	Bucket Size in Bytes = 64
+Number of Memory Blocks in this bucket = 0
+------------------------------------------------------
+The space you requested: 10 is not available. Sorry!
+The space you requested: 11 is not available. Sorry!
+The space you requested: 12 is not available. Sorry!
+The space you requested: 13 is not available. Sorry!
+The space you requested: 14 is not available. Sorry!
+The space you requested: 15 is not available. Sorry!
+The space you requested: 16 is not available. Sorry!
+The space you requested: 17 is not available. Sorry!
+The space you requested: 18 is not available. Sorry!
+The space you requested: 19 is not available. Sorry!
