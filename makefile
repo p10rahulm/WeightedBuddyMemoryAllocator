@@ -7,5 +7,5 @@ memoryAllocator.out:  testMemory.o spHeap.o
 testMemory.o: testMemory.c spHeap.h
 	gcc -c testMemory.c
 
-spHeap.c: spHeap.c spHeap.h
+spHeap.o: spHeap.c spHeap.h
 	gcc -c spHeap.c

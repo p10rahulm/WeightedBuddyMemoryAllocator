@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "spHeap.h"
 
@@ -56,12 +57,92 @@ c	bs	op	    power	B		    KB		    MB
 1	2	power	6		64		    0.0625		6.10352E-05
 3	2	power	4		48		    0.046875	4.57764E-05
 1	2	power	5		32		    0.03125		3.05176E-05
+3	2	power	3		24		    0.0234375	2.28882E-05
+1	2	power	4		16		    0.015625	1.52588E-05
+3	2	power	2		12		    0.01171875	1.14441E-05
+1	2	power	3		8		    0.0078125	7.62939E-06
+3	2	power	1		6		    0.005859375	5.72205E-06
+1	2	power	2		4		    0.00390625	3.8147E-06
 -----------------------------------------------------------
+
+
+
+ There are 53 lines above. So our ASL can have 53 elements.
+ In general, if we allocate 2^n MB, we will have
+ number of list elements = 37+2n elements
+ in ASL list of size 4B and above.
+ (4B element, plus two each for each power of 2^n Bytes, one for 1x2^n and one for 3x2^(n-2))
+
 */
 
-typedef struct memory_element{
-    short int kval; //stores the n in 2^n
-    short int tag;  //1 bit to indicate available (0) or reserved (1)
-    short int type; //Indicates whether the type is
-    struct memory_element* next;
-}memElement;
+
+
+typedef struct memory_block {
+    int kval; //stores the n in 2^n
+    int tag;  //1 bit to indicate available (0) or reserved (1)
+    int type; //Indicates whether the type is
+    void *mem_address; //base address of the block. This is what will be returned
+    struct memory_block *next;
+} memBlock;
+
+typedef struct memory_bucket {
+    int bucketSizeinB;
+    int numMemBlock;
+    memBlock *head;
+} memBucket;
+
+typedef struct spHeap {
+    int num_buckets;
+    int smallestBucketSize;
+    int largestBucketSize;
+    memBucket* memBuckets;
+} spHeap;
+
+int bucket_num(int memSizeRequired,spHeap* Heap){
+
+}
+
+int correctedSize(int memSizeinBytes,spHeap* inputHeap){
+    //first we decide how much to allocate
+    if(memSizeinBytes>inputHeap->largestBucketSize){
+        printf("The memory size you have input is too large to fit into inputHeap");
+        return -1;
+    }
+
+    int logSize = (int) ceil(log2((int) memSizeinBytes));
+    int twoPowerLogSize = (int) pow(2,logSize);
+    int output_size = twoPowerLogSize;
+    if(twoPowerLogSize*3/4>=memSizeinBytes){
+        output_size = twoPowerLogSize*3/4;
+    } else {
+        output_size = twoPowerLogSize;
+    }
+    return output_size;
+}
+
+spHeap *initialize_memory(int heapSizeInMB) {
+    //error checks
+    int heapSizeActual;
+    heapSizeActual = heapSizeInMB;
+    if (heapSizeInMB < 1) { heapSizeActual = 1; }
+    if (heapSizeInMB > 512) { heapSizeActual = 512; }
+
+    int logHeapSize = (int) ceil(log2((int) heapSizeInMB));
+    int num_memory_buckets = 2 * logHeapSize + 37;
+    spHeap *out = calloc(1, sizeof(spHeap));
+
+    out->smallestBucketSize = 4;
+    out->largestBucketSize = 4;
+    out->num_buckets = num_memory_buckets;
+    out->memBuckets = calloc(num_memory_buckets, sizeof(memBucket));
+    for (int i = 0; i < num_memory_buckets; ++i) {
+        out->memBuckets[i].numMemBlock=0;
+        out->memBuckets[i].head=NULL;
+    }
+
+
+}
+
+int closest_memory_block_size(int sizeInBytes) {
+
+}
