@@ -596,7 +596,11 @@ void freeMemoryRecursr(spHeap *inputHeap, BucketBlock *bucketFreed) {
         int freed = freeHelp(inputHeap, bucketFreed, bucket_num - 2, buddyAddr, BUDDYHI, COMBINE22);
         if (!freed) {
             buddyAddr = memFreed->mem_address - block_size * 2;
-            freeHelp(inputHeap, bucketFreed, bucket_num + 2, buddyAddr, BUDDYLO, COMBINE22);
+            freed = freeHelp(inputHeap, bucketFreed, bucket_num + 2, buddyAddr, BUDDYLO, COMBINE22);
+            if(!freed){
+                buddyAddr = memFreed->mem_address - block_size * 3;
+                freeHelp(inputHeap, bucketFreed, bucket_num + 3, buddyAddr, BUDDYLO, COMBINE31);
+            }
         }
         return;
     }
