@@ -95,6 +95,21 @@ int main(){
         }
     }
 
+    //check some inistializations
+    spHeap* heap5 = initializeMemory(100);
+    typedef struct somestruct{
+        int a;
+        float f;
+    }someStruct;
+
+    BucketBlock* somemem = allocateMemory(heap5, sizeof(someStruct));
+    someStruct* ss = somemem->block->mem_address;
+    ss->a = 5;
+    ss->f = 2.2;
+    printf("\nss->a=%d,ss->f = %.2f\n",ss->a,ss->f);
+    freeMemory(heap5,somemem);
+    printHeap(heap5);
+
 
 
 
