@@ -57,7 +57,6 @@ int main(){
     for (int i = -10; i < 20; ++i) {
         BucketBlock* some_mem =allocateMemory(heap2,i);
         if(some_mem){
-            int* some_int_space = some_mem->block->mem_address;
             printf("\n\nRequested Memory Size = %d, obtained Pointer = %p",i,some_mem->block->mem_address);
             printHeap(heap2);
         }
@@ -65,21 +64,18 @@ int main(){
     for (int i = 0; i < 40; ++i) {
         BucketBlock* some_mem =allocateMemory(heap3,i);
         if(some_mem){
-            int* some_int_space = some_mem->block->mem_address;
             printf("\n\nRequested Memory Size = %d, obtained Pointer = %p",i,some_mem->block->mem_address);
             printHeap(heap3);
         }
     }
     //Repeated Requests of Same Size
-    spHeap* heap4 = initializeMemory(1000);
+    spHeap* heap4 = initializeMemory(100);
     printHeap(heap4);
-    int num_Allocs = 45;
+    int num_Allocs = 10;
     BucketBlock** bucketsAllocated = calloc(num_Allocs, sizeof(BucketBlock*));
-    int someSize = 10;
     for (int i = 0; i < num_Allocs; ++i) {
         bucketsAllocated[i] = allocateMemory(heap4,i);
         if(bucketsAllocated[i]){
-            int* some_int_space = bucketsAllocated[i]->block->mem_address;
             printf("\n\nRequested Memory Size = %d, obtained Pointer = %p",i,bucketsAllocated[i]->block->mem_address);
             printHeap(heap4);
         }
@@ -94,6 +90,8 @@ int main(){
             printf("\n---------------------------------\n");
             freeMemory(heap4, bucketsAllocated[i]);
             printHeap(heap4);
+        } else {
+            printf("Sorry the bucket: %d has not been allocated\n",i);
         }
     }
 

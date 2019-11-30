@@ -236,7 +236,7 @@ int correctedSize(int memSizeinBytes) {
 
     int logSize = (int) ceil(log2((int) memSizeinBytes));
     int twoPowerLogSize = (int) pow(2, logSize);
-    int output_size;
+    int output_size = twoPowerLogSize;
     if (twoPowerLogSize * 3 / 4 >= memSizeinBytes) {
         output_size = twoPowerLogSize * 3 / 4;
     } else {
@@ -548,7 +548,6 @@ int freeHelp(spHeap* inputHeap, BucketBlock* bucketFreed,int buddy_bucket_num,vo
     return 0;
 }
 
-
 void freeMemory(spHeap* inputHeap, BucketBlock* bucketFreed){
     bucketFreed->block->tag=AVAILABLE;
     int bucket_num = bucketFreed->bucket_num;
@@ -557,20 +556,56 @@ void freeMemory(spHeap* inputHeap, BucketBlock* bucketFreed){
     if(bucket_num%2==0 && memFreed->type==3){
         void* buddyAddr = memFreed->mem_address - block_size*3;
         freeHelp(inputHeap, bucketFreed,bucket_num+3,buddyAddr,BUDDYLO,COMBINE31);
+        return;
     }
     else if(bucket_num%2==1 && memFreed->type==3){
         void* buddyAddr = memFreed->mem_address + block_size;
         freeHelp(inputHeap, bucketFreed,bucket_num-3,buddyAddr,BUDDYHI,COMBINE31);
+
+//        int buddy_bucket_num = bucket_num-3;
+//        BucketBlock* buddy = NULL;
+//        if(buddy_bucket_num<inputHeap->num_buckets && buddy_bucket_num>=0){
+//            buddy = findRecombineBuddy(inputHeap,buddyAddr,buddy_bucket_num);
+//        }
+//        if(buddy && buddy->block->tag==AVAILABLE){
+//            BucketBlock*new_bucket_to_free = combine_buddies31(inputHeap,bucketFreed,buddy);
+//            freeMemory(inputHeap, new_bucket_to_free);
+//        }
+//        return;
     }
     else if(bucket_num%2==0 && (memFreed->type==2||memFreed->type==1)){
         void* buddyAddr = memFreed->mem_address + block_size;
-        int result = freeHelp(inputHeap, bucketFreed,bucket_num-2,buddyAddr,BUDDYHI,COMBINE22);
-        if(!result){
+        int freed = freeHelp(inputHeap, bucketFreed,bucket_num-2,buddyAddr,BUDDYHI,COMBINE22);
+        if(!freed){
             buddyAddr = memFreed->mem_address - block_size*2;
             freeHelp(inputHeap, bucketFreed,bucket_num+2,buddyAddr,BUDDYLO,COMBINE22);
         }
         return;
+        int buddy_bucket_num = bucket_num-2;
+        BucketBlock* buddy = NULL;
+        if(buddy_bucket_num<inputHeap->num_buckets && buddy_bucket_num>=0){
+            buddy = findRecombineBuddy(inputHeap,buddyAddr,buddy_bucket_num);
+        }
+
+        if(buddy && buddy->block->tag==AVAILABLE){
+            BucketBlock*new_bucket_to_free = combine_buddies22(inputHeap,bucketFreed,buddy);
+            freeMemory(inputHeap, new_bucket_to_free);
+        } else {
+            buddyAddr = memFreed->mem_address - block_size*2;
+            buddy_bucket_num = bucket_num+2;
+            if(buddy_bucket_num<inputHeap->num_buckets && buddy_bucket_num>=0){
+                buddy = findRecombineBuddy(inputHeap,buddyAddr,buddy_bucket_num);
+            }
+            if(buddy && buddy->block->tag==AVAILABLE){
+                BucketBlock*new_bucket_to_free = combine_buddies22(inputHeap,buddy,bucketFreed);
+                freeMemory(inputHeap, new_bucket_to_free);
+            }
+        }
+        return;
     }
+    printf("FreeMemory: 45\n");
+
+
 }
 
 
