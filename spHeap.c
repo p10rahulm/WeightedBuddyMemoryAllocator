@@ -190,113 +190,6 @@ BucketBlock *allocateMemory(spHeap *inputHeap, int spaceRequired) {
     return NULL;
 }
 
-
-BucketBlock* findRecombinBuddy(spHeap* inputHeap,void* buddyAddr,int bucket_num ){
-    BucketBlock* out = calloc(1, sizeof(BucketBlock));
-    out->bucket_num = bucket_num;
-    memBlock* rover = inputHeap->memBuckets[bucket_num].head;
-    while(rover){
-        if(rover->mem_address==buddyAddr){
-            out->block = rover;
-            return out;
-        }
-        rover = rover->next;
-    }
-    return NULL;
-}
-
-BucketBlock* combine_buddies31(spHeap* inputHeap,BucketBlock* bucketLow,BucketBlock* bucketHi){
-    int lowSize = inputHeap->memBuckets[bucketLow->bucket_num].bucketSizeinB;
-
-    if(bucketLow->block->mem_address+lowSize != bucketHi->block->mem_address){
-        printf(""
-               "Are you sure these two are buddies? Please check again.\n"
-               "Bucket Low Address: %p, Bucket Hi Address: %p, Bucket Lo Size: %d",
-               bucketLow->block->mem_address,bucketHi->block->mem_address,lowSize);
-        return NULL;
-    }
-    BucketBlock* out = calloc(1, sizeof(BucketBlock));
-    out->bucket_num = bucketLow->bucket_num-1;
-    memBlock*  newBlock =createMemBlock(bucketLow->block->mem_address,bucketLow->block->kval+1,AVAILABLE,3,NULL,NULL);
-    out->block =newBlock;
-    addBlockToTail(inputHeap, bucketLow->bucket_num+1, newBlock);
-    removeCurrentBlockFromSpaceList(inputHeap,bucketHi->bucket_num,bucketHi->block);
-    removeCurrentBlockFromSpaceList(inputHeap,bucketLow->bucket_num,bucketLow->block);
-}
-
-BucketBlock* combine_buddies22(spHeap* inputHeap,BucketBlock* bucketLow,BucketBlock* bucketHi){
-    int lowSize = inputHeap->memBuckets[bucketLow->bucket_num].bucketSizeinB;
-
-    if(bucketLow->block->mem_address+lowSize != bucketHi->block->mem_address){
-        printf(""
-               "Are you sure these two are buddies? Please check again.\n"
-               "Bucket Low Address: %p, Bucket Hi Address: %p, Bucket Lo Size: %d",
-               bucketLow->block->mem_address,bucketHi->block->mem_address,lowSize);
-        return NULL;
-    }
-    BucketBlock* out = calloc(1, sizeof(BucketBlock));
-    out->bucket_num = bucketLow->bucket_num-1;
-    memBlock*  newBlock =createMemBlock(bucketLow->block->mem_address,bucketLow->block->kval+1,AVAILABLE,3,NULL,NULL);
-    out->block =newBlock;
-    addBlockToTail(inputHeap, bucketLow->bucket_num+1, newBlock);
-    removeCurrentBlockFromSpaceList(inputHeap,bucketHi->bucket_num,bucketHi->block);
-    removeCurrentBlockFromSpaceList(inputHeap,bucketLow->bucket_num,bucketLow->block);
-}
-
-
-void freeMemory(spHeap* inputHeap, BucketBlock* bucketFreed){
-    bucketFreed->block->tag=AVAILABLE;
-    int bucket_num = bucketFreed->bucket_num;
-    memBlock* memFreed = bucketFreed->block;
-    int block_size = inputHeap->memBuckets[bucket_num].bucketSizeinB;
-    if(bucket_num%2==0 && memFreed->type==3){
-        void* memAddr = memFreed->mem_address;
-        void* buddyAddr = memAddr - block_size*3;
-        int buddy_bucket_num = bucket_num+3;
-        BucketBlock* buddy = findRecombinBuddy(inputHeap,buddyAddr,buddy_bucket_num);
-        if(buddy && buddy->block->tag==AVAILABLE){
-                BucketBlock*new_bucket_to_free = combine_buddies31(inputHeap,buddy,bucketFreed);
-                freeMemory(inputHeap, new_bucket_to_free);
-        }
-        return;
-    }
-    if(bucket_num%2==1 && memFreed->type==3){
-        void* memAddr = memFreed->mem_address;
-        void* buddyAddr = memAddr + block_size;
-        int buddy_bucket_num = bucket_num-3;
-        BucketBlock* buddy = findRecombinBuddy(inputHeap,buddyAddr,buddy_bucket_num);
-        if(buddy && buddy->block->tag==AVAILABLE){
-            BucketBlock*new_bucket_to_free = combine_buddies31(inputHeap,bucketFreed,buddy);
-            freeMemory(inputHeap, new_bucket_to_free);
-        }
-        return;
-    }
-    if(bucket_num%2==0 && memFreed->type==1){
-        void* memAddr = memFreed->mem_address;
-        void* buddyAddr = memAddr - block_size*2;
-        int buddy_bucket_num = bucket_num+2;
-        BucketBlock* buddy = findRecombinBuddy(inputHeap,buddyAddr,buddy_bucket_num);
-        if(buddy && buddy->block->tag==AVAILABLE){
-            BucketBlock*new_bucket_to_free = combine_buddies22(inputHeap,buddy,bucketFreed);
-            freeMemory(inputHeap, new_bucket_to_free);
-        }
-        return;
-    }
-    if(bucket_num%2==0 && memFreed->type==2){
-        void* memAddr = memFreed->mem_address;
-        void* buddyAddr = memAddr + block_size;
-        int buddy_bucket_num = bucket_num-2;
-        BucketBlock* buddy = findRecombinBuddy(inputHeap,buddyAddr,buddy_bucket_num);
-        if(buddy && buddy->block->tag==AVAILABLE){
-            BucketBlock*new_bucket_to_free = combine_buddies22(inputHeap,bucketFreed,buddy);
-            freeMemory(inputHeap, new_bucket_to_free);
-        }
-        return;
-    }
-    return;
-
-}
-
 //Helper Functions Below
 int isPowerOfTwo(int n) {
     if (n == 0)
@@ -343,7 +236,7 @@ int correctedSize(int memSizeinBytes) {
 
     int logSize = (int) ceil(log2((int) memSizeinBytes));
     int twoPowerLogSize = (int) pow(2, logSize);
-    int output_size = twoPowerLogSize;
+    int output_size;
     if (twoPowerLogSize * 3 / 4 >= memSizeinBytes) {
         output_size = twoPowerLogSize * 3 / 4;
     } else {
@@ -475,31 +368,6 @@ BucketBlock *split(spHeap *inputHeap, BucketBlock *bucketHavingSpace, int spaceR
 
 
 }
-
-void removeCurrentBlockFromSpaceList(spHeap *inputHeap, int bucket_num, memBlock *currentBlock) {
-    inputHeap->memBuckets[bucket_num].numMemBlocks -= 1;
-    if (inputHeap->memBuckets[bucket_num].numMemBlocks == 0) {
-        inputHeap->memBuckets[bucket_num].head = NULL;
-        inputHeap->memBuckets[bucket_num].tail = NULL;
-    }
-    if (currentBlock->prev) { currentBlock->prev->next = currentBlock->next; }
-    if (currentBlock->next) { currentBlock->next->prev = currentBlock->prev; }
-    free(currentBlock);
-}
-
-void addBlockToTail(spHeap *inputHeap, int bucket_num, memBlock *memory_block) {
-    memory_block->prev = inputHeap->memBuckets[bucket_num].tail;
-    memory_block->next = NULL;
-    if (inputHeap->memBuckets[bucket_num].tail) {
-        inputHeap->memBuckets[bucket_num].tail->next = memory_block;
-    } else {
-        inputHeap->memBuckets[bucket_num].head = memory_block;
-    }
-
-    inputHeap->memBuckets[bucket_num].tail = memory_block;
-    inputHeap->memBuckets[bucket_num].numMemBlocks += 1;
-}
-
 spHeap *initialize_memory_structure(int heapBytes) {
     if (heapBytes < MIN_ALLOCATABLE_BYTES) {
         printf("Error. Number of bytes requested is too low\n");
@@ -605,3 +473,131 @@ void printStats(spHeap *inputHeap) {
            inputHeap->stats->total_size_allocated,
            internal_fragmentation * 100, percentageFull * 100);
 }
+
+
+// Now we have the recombine stuff
+
+BucketBlock* findRecombineBuddy(spHeap* inputHeap,void* buddyAddr,int bucket_num ){
+    memBlock* rover = inputHeap->memBuckets[bucket_num].head;
+    while(rover){
+        if(rover->mem_address==buddyAddr){
+            BucketBlock* out = calloc(1, sizeof(BucketBlock));
+            out->bucket_num = bucket_num;
+            out->block = rover;
+            return out;
+        }
+        rover = rover->next;
+    }
+    return NULL;
+}
+
+BucketBlock* combine_buddies31(spHeap* inputHeap,BucketBlock* bucketLow,BucketBlock* bucketHi){
+    int lowSize = inputHeap->memBuckets[bucketLow->bucket_num].bucketSizeinB;
+
+    if(bucketLow->block->mem_address+lowSize != bucketHi->block->mem_address){
+        printf(""
+               "Are you sure these two are buddies? Please check again.\n"
+               "Bucket Low Address: %p, Bucket Hi Address: %p, Bucket Lo Size: %d",
+               bucketLow->block->mem_address,bucketHi->block->mem_address,lowSize);
+        return NULL;
+    }
+    BucketBlock* out = calloc(1, sizeof(BucketBlock));
+    out->bucket_num = bucketLow->bucket_num+1;
+    memBlock*  newBlock =createMemBlock(bucketLow->block->mem_address,bucketLow->block->kval+1,AVAILABLE,2,NULL,NULL);
+    out->block =newBlock;
+    addBlockToTail(inputHeap, bucketLow->bucket_num+1, newBlock);
+    removeCurrentBlockFromSpaceList(inputHeap,bucketHi->bucket_num,bucketHi->block);
+    removeCurrentBlockFromSpaceList(inputHeap,bucketLow->bucket_num,bucketLow->block);
+    return out;
+}
+
+BucketBlock* combine_buddies22(spHeap* inputHeap,BucketBlock* bucketLow,BucketBlock* bucketHi){
+    int lowSize = inputHeap->memBuckets[bucketLow->bucket_num].bucketSizeinB;
+
+    if(bucketLow->block->mem_address+lowSize != bucketHi->block->mem_address){
+        printf(""
+               "Are you sure these two are buddies? Please check again.\n"
+               "Bucket Low Address: %p, Bucket Hi Address: %p, Bucket Lo Size: %d",
+               bucketLow->block->mem_address,bucketHi->block->mem_address,lowSize);
+        return NULL;
+    }
+    BucketBlock* out = calloc(1, sizeof(BucketBlock));
+    out->bucket_num = bucketLow->bucket_num+1;
+    memBlock*  newBlock =createMemBlock(bucketLow->block->mem_address,bucketLow->block->kval+1,AVAILABLE,3,NULL,NULL);
+    out->block =newBlock;
+    addBlockToTail(inputHeap, bucketLow->bucket_num+1, newBlock);
+    removeCurrentBlockFromSpaceList(inputHeap,bucketHi->bucket_num,bucketHi->block);
+    removeCurrentBlockFromSpaceList(inputHeap,bucketLow->bucket_num,bucketLow->block);
+    return out;
+}
+
+int freeHelp(spHeap* inputHeap, BucketBlock* bucketFreed,int buddy_bucket_num,void* buddyAddr, int buddyLo, int combine_31_or_22){
+    BucketBlock* buddy = NULL;
+    if(buddy_bucket_num<inputHeap->num_buckets && buddy_bucket_num>=0){
+        buddy = findRecombineBuddy(inputHeap,buddyAddr,buddy_bucket_num);
+    }
+    if(buddy && buddy->block->tag==AVAILABLE){
+        BucketBlock*new_bucket_to_free =NULL;
+        if(combine_31_or_22==COMBINE31 && buddyLo==BUDDYLO){new_bucket_to_free = combine_buddies31(inputHeap,buddy,bucketFreed);}
+        if(combine_31_or_22==COMBINE31 && buddyLo==BUDDYHI){new_bucket_to_free = combine_buddies31(inputHeap,bucketFreed,buddy);}
+        if(combine_31_or_22==COMBINE22 && buddyLo==BUDDYLO){new_bucket_to_free = combine_buddies22(inputHeap,buddy,bucketFreed);}
+        if(combine_31_or_22==COMBINE22 && buddyLo==BUDDYHI){new_bucket_to_free = combine_buddies22(inputHeap,bucketFreed,buddy);}
+        if(new_bucket_to_free){freeMemory(inputHeap, new_bucket_to_free);}
+        return 1;
+    }
+    return 0;
+}
+
+
+void freeMemory(spHeap* inputHeap, BucketBlock* bucketFreed){
+    bucketFreed->block->tag=AVAILABLE;
+    int bucket_num = bucketFreed->bucket_num;
+    memBlock* memFreed = bucketFreed->block;
+    int block_size = inputHeap->memBuckets[bucket_num].bucketSizeinB;
+    if(bucket_num%2==0 && memFreed->type==3){
+        void* buddyAddr = memFreed->mem_address - block_size*3;
+        freeHelp(inputHeap, bucketFreed,bucket_num+3,buddyAddr,BUDDYLO,COMBINE31);
+    }
+    else if(bucket_num%2==1 && memFreed->type==3){
+        void* buddyAddr = memFreed->mem_address + block_size;
+        freeHelp(inputHeap, bucketFreed,bucket_num-3,buddyAddr,BUDDYHI,COMBINE31);
+    }
+    else if(bucket_num%2==0 && (memFreed->type==2||memFreed->type==1)){
+        void* buddyAddr = memFreed->mem_address + block_size;
+        int result = freeHelp(inputHeap, bucketFreed,bucket_num-2,buddyAddr,BUDDYHI,COMBINE22);
+        if(!result){
+            buddyAddr = memFreed->mem_address - block_size*2;
+            freeHelp(inputHeap, bucketFreed,bucket_num+2,buddyAddr,BUDDYLO,COMBINE22);
+        }
+        return;
+    }
+}
+
+
+void removeCurrentBlockFromSpaceList(spHeap *inputHeap, int bucket_num, memBlock *currentBlock) {
+    inputHeap->memBuckets[bucket_num].numMemBlocks -= 1;
+    if(inputHeap->memBuckets[bucket_num].head==currentBlock){
+        inputHeap->memBuckets[bucket_num].head=currentBlock->next;
+    }
+    if(inputHeap->memBuckets[bucket_num].tail==currentBlock){
+        inputHeap->memBuckets[bucket_num].tail=currentBlock->prev;
+    }
+    if (currentBlock->prev) { currentBlock->prev->next = currentBlock->next; }
+    if (currentBlock->next) { currentBlock->next->prev = currentBlock->prev; }
+    free(currentBlock);
+}
+
+void addBlockToTail(spHeap *inputHeap, int bucket_num, memBlock *memory_block) {
+    memory_block->prev = inputHeap->memBuckets[bucket_num].tail;
+    memory_block->next = NULL;
+    if (inputHeap->memBuckets[bucket_num].tail) {
+        inputHeap->memBuckets[bucket_num].tail->next = memory_block;
+    } else {
+        inputHeap->memBuckets[bucket_num].head = memory_block;
+    }
+
+    inputHeap->memBuckets[bucket_num].tail = memory_block;
+    inputHeap->memBuckets[bucket_num].numMemBlocks += 1;
+}
+
+
