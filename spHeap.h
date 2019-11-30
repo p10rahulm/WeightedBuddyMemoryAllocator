@@ -8,6 +8,15 @@
 #define AVAILABLE 0
 #define RESERVED 1
 
+typedef struct heap_stats {
+    int num_allocs;
+    int num_deallocs;
+    int splits;
+    int recombines;
+    int total_size_allocated;
+    int total_size_requested;
+    int total_size_of_heap;
+}HeapStats;
 
 typedef struct memory_block {
     int kval; //stores the n in 2^n
@@ -30,6 +39,7 @@ typedef struct spHeap {
     int smallestBucketSize;
     int largestBucketSize;
     memBucket *memBuckets;
+    HeapStats* stats;
 } spHeap;
 
 typedef struct bucket_block{
@@ -50,6 +60,9 @@ void printHeap(spHeap *inputHeap);
 
 BucketBlock* checkSpaceAvailableBucket(spHeap *inputHeap, int spaceRequired);
 
-void *allocateMemory(spHeap *inputHeap, int spaceRequired);
+BucketBlock *allocateMemory(spHeap *inputHeap, int spaceRequired);
 
+void freeMemory(spHeap* inputHeap, BucketBlock* bucketFreed);
+
+void printMemBlock(memBlock *inputBlock);
 #endif //WEIGHTEDBUDDYMEMORYALLOCATOR_SPHEAP_H

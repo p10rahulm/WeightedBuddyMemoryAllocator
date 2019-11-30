@@ -42,9 +42,9 @@ int main(){
     //Checking Memory Initialization
     spHeap* heap1 = initializeMemory(10);
     printHeap(heap1);
-    spHeap* heap2 = initializeMemory(50);
+    spHeap* heap2 = initializeMemory(100);
     printHeap(heap2);
-    spHeap* heap3 = initializeMemory(100);
+    spHeap* heap3 = initializeMemory(1000);
     printHeap(heap3);
     // Below you can note how, though we requested only 100B, anything between 4B and 128B is accepted as request.
     // This is because 100 is initialized to bucket 128B.
@@ -55,12 +55,48 @@ int main(){
         printf("available in bucket %d of Heap 2\n",spaceAvlBucket->bucket_num);
     }
     for (int i = -10; i < 20; ++i) {
-        int* some_mem = allocateMemory(heap2,i);
+        BucketBlock* some_mem =allocateMemory(heap2,i);
         if(some_mem){
-            printf("\n\nRequested Memory Size = %d, obtained Pointer = %p",i,some_mem);
+            int* some_int_space = some_mem->block->mem_address;
+            printf("\n\nRequested Memory Size = %d, obtained Pointer = %p",i,some_mem->block->mem_address);
             printHeap(heap2);
         }
     }
+    for (int i = 0; i < 40; ++i) {
+        BucketBlock* some_mem =allocateMemory(heap3,i);
+        if(some_mem){
+            int* some_int_space = some_mem->block->mem_address;
+            printf("\n\nRequested Memory Size = %d, obtained Pointer = %p",i,some_mem->block->mem_address);
+            printHeap(heap3);
+        }
+    }
+    //Repeated Requests of Same Size
+    spHeap* heap4 = initializeMemory(1000);
+    printHeap(heap4);
+    int num_Allocs = 45;
+    BucketBlock** bucketsAllocated = calloc(num_Allocs, sizeof(BucketBlock*));
+    int someSize = 10;
+    for (int i = 0; i < num_Allocs; ++i) {
+        bucketsAllocated[i] = allocateMemory(heap4,i);
+        if(bucketsAllocated[i]){
+            int* some_int_space = bucketsAllocated[i]->block->mem_address;
+            printf("\n\nRequested Memory Size = %d, obtained Pointer = %p",i,bucketsAllocated[i]->block->mem_address);
+            printHeap(heap4);
+        }
+    }
+    //Free memory check
+    for (int i = 0; i < num_Allocs; ++i) {
+        if(bucketsAllocated[i]){
+            printf(""
+                   "---------------------------------\n"
+                   "The Block %d to be freed is as below\n",i);
+            printMemBlock(bucketsAllocated[i]->block);
+            printf("\n---------------------------------\n");
+            freeMemory(heap4, bucketsAllocated[i]);
+            printHeap(heap4);
+        }
+    }
+
 
 
 
