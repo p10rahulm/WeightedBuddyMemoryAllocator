@@ -29,6 +29,7 @@ typedef struct memory_block {
     void *mem_address; //base address of the block. This is what will be returned
     struct memory_block *next;
     struct memory_block *prev;
+    int memRequest;
 } memBlock;
 
 typedef struct memory_bucket {

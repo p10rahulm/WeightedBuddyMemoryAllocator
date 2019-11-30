@@ -69,9 +69,9 @@ int main(){
         }
     }
     //Repeated Requests of Same Size
-    spHeap* heap4 = initializeMemory(100);
+    spHeap* heap4 = initializeMemory(1000);
     printHeap(heap4);
-    int num_Allocs = 10;
+    int num_Allocs = 45;
     BucketBlock** bucketsAllocated = calloc(num_Allocs, sizeof(BucketBlock*));
     for (int i = 0; i < num_Allocs; ++i) {
         bucketsAllocated[i] = allocateMemory(heap4,i);
