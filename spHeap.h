@@ -7,6 +7,10 @@
 #define MAX_HEAP_SIZE 536870912
 #define AVAILABLE 0
 #define RESERVED 1
+#define COMBINE31 0
+#define COMBINE22 1
+#define BUDDYLO 0
+#define BUDDYHI 1
 
 typedef struct heap_stats {
     int num_allocs;
