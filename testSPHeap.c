@@ -109,7 +109,7 @@ int main() {
     BucketBlock *somemem = allocateMemory(heap5, sizeof(someStruct));
     someStruct *ss = somemem->block->mem_address;
     ss->a = 5;
-    ss->f = 2.2;
+    ss->f = 2.2f;
     printf("\nss->a=%d,ss->f = %.2f\n", ss->a, ss->f);
     freeMemory(heap5, somemem);
     printHeap(heap5);

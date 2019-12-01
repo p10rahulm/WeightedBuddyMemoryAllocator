@@ -335,7 +335,7 @@ BucketBlock *split(spHeap *inputHeap, BucketBlock *bucketHavingSpace, int spaceR
 
     memBlock *current_block = bucketHavingSpace->block;
     int bucket_num = bucketHavingSpace->bucket_num;
-    int current_bucket_size = inputHeap->memBuckets[bucket_num].bucketSizeinB;
+    unsigned int current_bucket_size = inputHeap->memBuckets[bucket_num].bucketSizeinB;
 
 
     if (bucket_num % 2 == 0) {
@@ -344,7 +344,7 @@ BucketBlock *split(spHeap *inputHeap, BucketBlock *bucketHavingSpace, int spaceR
         addBlockToTail(inputHeap, current_block->kval - 1, triple_two_power_n_minus2);
         void *new_pointer = current_block->mem_address;
         //int address_shift = current_bucket_size >> 2 + current_bucket_size >> 1;
-        int address_shift = current_bucket_size * 3 / 4;
+        unsigned int address_shift = current_bucket_size * 3 / 4;
         new_pointer = new_pointer + address_shift;
         memBlock *single_two_power_n_minus2 = createMemBlock(new_pointer, current_block->kval - 4, AVAILABLE, 3, NULL,
                                                              NULL);
@@ -367,7 +367,7 @@ BucketBlock *split(spHeap *inputHeap, BucketBlock *bucketHavingSpace, int spaceR
         addBlockToTail(inputHeap, current_block->kval - 1, two_power_n_minus1);
 
         void *new_pointer = current_block->mem_address;
-        int address_shift = (current_bucket_size << 1) / 3;
+        unsigned int address_shift = (current_bucket_size << 1u) / 3;
         new_pointer = new_pointer + address_shift;
         memBlock *two_power_n_minus2 = createMemBlock(new_pointer, current_block->kval - 3, AVAILABLE, 1, NULL, NULL);
         addBlockToTail(inputHeap, current_block->kval - 3, two_power_n_minus2);
