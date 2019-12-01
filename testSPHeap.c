@@ -111,7 +111,15 @@ int main() {
     ss->a = 5;
     ss->f = 2.2f;
     printf("\nss->a=%d,ss->f = %.2f\n", ss->a, ss->f);
+
+    BucketBlock *someothermem = allocateMemory(heap5, sizeof(someStruct));
+    someStruct *ss2 = someothermem->block->mem_address;
+    ss2->a = 10;
+    ss2->f = 4.4f;
+    printf("\nss2->a=%d,ss2->f = %.2f\n", ss2->a, ss2->f);
+
     freeMemory(heap5, somemem);
+    freeMemory(heap5, someothermem);
     printHeap(heap5);
 
 
