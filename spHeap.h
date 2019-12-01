@@ -53,21 +53,12 @@ typedef struct bucket_block{
 } BucketBlock;
 
 
-int correctedSize(int memSizeinBytes);
-
-int bucket_num(int memSizeRequired);
-
-int get_bucket_size(int bucket_num);
-
 spHeap *initializeMemory(int heapBytes);
 
 void printHeap(spHeap *inputHeap);
-
-BucketBlock* checkSpaceAvailableBucket(spHeap *inputHeap, int spaceRequired);
 
 BucketBlock *allocateMemory(spHeap *inputHeap, int spaceRequired);
 
 void freeMemory(spHeap* inputHeap, BucketBlock* bucketFreed);
 
-void printMemBlock(memBlock *inputBlock);
 #endif //WEIGHTEDBUDDYMEMORYALLOCATOR_SPHEAP_H

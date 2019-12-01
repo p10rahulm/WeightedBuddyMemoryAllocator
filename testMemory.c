@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include "spHeap.h"
+#include "spHeapTester.h"
 
 int main(){
     printf("Hello, World!\nsizeof(int)=%d\n",sizeof(int));
