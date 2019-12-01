@@ -10,7 +10,7 @@ int bucket_num(int memSizeRequired);
 
 int get_bucket_size(int bucket_num);
 
-BucketBlock* checkSpaceAvailableBucket(spHeap *inputHeap, int spaceRequired);
+BucketBlock *checkSpaceAvailableBucket(spHeap *inputHeap, int spaceRequired);
 
 void printMemBlock(memBlock *inputBlock);
 

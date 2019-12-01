@@ -113,6 +113,7 @@ void update_allocation_stats(spHeap *inputHeap, int space_requested, int space_a
 void printStats(spHeap *inputHeap);
 
 void freeMemoryRecursr(spHeap *inputHeap, BucketBlock *bucketFreed);
+
 int freeHelp(spHeap *inputHeap, BucketBlock *bucketFreed, int buddy_bucket_num, void *buddyAddr, int buddyLo,
              int combine_31_or_22);
 
@@ -182,8 +183,9 @@ BucketBlock *allocateMemory(spHeap *inputHeap, int spaceRequired) {
     BucketBlock *bucketHavingSpace = checkSpaceAvailableBucket(inputHeap, spaceRequired);
     if (!bucketHavingSpace) {
         printf("The space you requested: %d is not available. Sorry!\n", spaceRequired);
-        float percentageFull = (float) inputHeap->stats->total_size_allocated / (float) inputHeap->stats->total_size_of_heap;
-        printf("(%d,%.2f)",spaceRequired,percentageFull);
+        float percentageFull =
+                (float) inputHeap->stats->total_size_allocated / (float) inputHeap->stats->total_size_of_heap;
+        printf("(%d,%.2f)", spaceRequired, percentageFull);
         return NULL;
     }
     BucketBlock *exactBucket = split(inputHeap, bucketHavingSpace, spaceRequired);
@@ -191,7 +193,7 @@ BucketBlock *allocateMemory(spHeap *inputHeap, int spaceRequired) {
         inputHeap->stats->num_allocs += 1;
         update_allocation_stats(inputHeap, spaceRequired, inputHeap->memBuckets[exactBucket->bucket_num].bucketSizeinB);
         exactBucket->block->tag = RESERVED;
-        exactBucket->block->memRequest=spaceRequired;
+        exactBucket->block->memRequest = spaceRequired;
         return exactBucket;
     }
     printf("Something went wrong.\n");
@@ -199,11 +201,11 @@ BucketBlock *allocateMemory(spHeap *inputHeap, int spaceRequired) {
 }
 
 
-void freeMemory(spHeap *inputHeap, BucketBlock *bucketFreed){
+void freeMemory(spHeap *inputHeap, BucketBlock *bucketFreed) {
     inputHeap->stats->num_deallocs++;
-    inputHeap->stats->total_size_allocated-=inputHeap->memBuckets[bucketFreed->bucket_num].bucketSizeinB;
-    inputHeap->stats->total_size_requested-=bucketFreed->block->memRequest;
-    freeMemoryRecursr(inputHeap,bucketFreed);
+    inputHeap->stats->total_size_allocated -= inputHeap->memBuckets[bucketFreed->bucket_num].bucketSizeinB;
+    inputHeap->stats->total_size_requested -= bucketFreed->block->memRequest;
+    freeMemoryRecursr(inputHeap, bucketFreed);
 }
 
 //Helper Functions Below
@@ -252,7 +254,7 @@ int correctedSize(int memSizeinBytes) {
 
     int logSize = (int) ceil(log2((int) memSizeinBytes));
     int twoPowerLogSize = (int) pow(2, logSize);
-    int output_size = twoPowerLogSize;
+    int output_size;
     if (twoPowerLogSize * 3 / 4 >= memSizeinBytes) {
         output_size = twoPowerLogSize * 3 / 4;
     } else {
@@ -349,7 +351,7 @@ BucketBlock *split(spHeap *inputHeap, BucketBlock *bucketHavingSpace, int spaceR
         addBlockToTail(inputHeap, current_block->kval - 4, single_two_power_n_minus2);
 
 
-        if (spaceRequired <= inputHeap->memBuckets[current_block->kval - 4].bucketSizeinB) {
+        if (spaceRequired <= (inputHeap->memBuckets[current_block->kval - 4].bucketSizeinB)) {
             bucketHavingSpace->bucket_num = current_block->kval - 4;
             bucketHavingSpace->block = single_two_power_n_minus2;
         } else {
@@ -465,11 +467,11 @@ void printStats(spHeap *inputHeap) {
     if (inputHeap->stats->total_size_requested > 0) {
         internal_fragmentation =
                 (float) (inputHeap->stats->total_size_allocated - inputHeap->stats->total_size_requested) /
-                (inputHeap->stats->total_size_requested);
+                        (float) (inputHeap->stats->total_size_requested);
     }
     float percentageFull = 0;
     if (inputHeap->stats->total_size_of_heap > 0) {
-        percentageFull = (float) inputHeap->stats->total_size_allocated / inputHeap->stats->total_size_of_heap;
+        percentageFull = (float) inputHeap->stats->total_size_allocated / (float) inputHeap->stats->total_size_of_heap;
     }
 
     printf(""
@@ -559,7 +561,7 @@ int freeHelp(spHeap *inputHeap, BucketBlock *bucketFreed, int buddy_bucket_num, 
         buddy = findRecombineBuddy(inputHeap, buddyAddr, buddy_bucket_num);
     }
     if (buddy && buddy->block->tag == AVAILABLE) {
-        inputHeap->stats->recombines+=1;
+        inputHeap->stats->recombines += 1;
         BucketBlock *new_bucket_to_free = NULL;
         if (combine_31_or_22 == COMBINE31 && buddyLo == BUDDYLO) {
             new_bucket_to_free = combine_buddies31(inputHeap, buddy, bucketFreed);
@@ -598,7 +600,7 @@ void freeMemoryRecursr(spHeap *inputHeap, BucketBlock *bucketFreed) {
         if (!freed) {
             buddyAddr = memFreed->mem_address - block_size * 2;
             freed = freeHelp(inputHeap, bucketFreed, bucket_num + 2, buddyAddr, BUDDYLO, COMBINE22);
-            if(!freed){
+            if (!freed) {
                 buddyAddr = memFreed->mem_address - block_size * 3;
                 freeHelp(inputHeap, bucketFreed, bucket_num + 3, buddyAddr, BUDDYLO, COMBINE31);
             }

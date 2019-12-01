@@ -20,7 +20,7 @@ typedef struct heap_stats {
     int total_size_allocated;
     int total_size_requested;
     int total_size_of_heap;
-}HeapStats;
+} HeapStats;
 
 typedef struct memory_block {
     int kval; //stores the n in 2^n
@@ -44,12 +44,12 @@ typedef struct spHeap {
     int smallestBucketSize;
     int largestBucketSize;
     memBucket *memBuckets;
-    HeapStats* stats;
+    HeapStats *stats;
 } spHeap;
 
-typedef struct bucket_block{
+typedef struct bucket_block {
     int bucket_num;
-    memBlock* block;
+    memBlock *block;
 } BucketBlock;
 
 
@@ -59,6 +59,6 @@ void printHeap(spHeap *inputHeap);
 
 BucketBlock *allocateMemory(spHeap *inputHeap, int spaceRequired);
 
-void freeMemory(spHeap* inputHeap, BucketBlock* bucketFreed);
+void freeMemory(spHeap *inputHeap, BucketBlock *bucketFreed);
 
 #endif //WEIGHTEDBUDDYMEMORYALLOCATOR_SPHEAP_H
