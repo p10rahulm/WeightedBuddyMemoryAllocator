@@ -3,4 +3,6 @@ project(WeightedBuddyMemoryAllocator C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(WeightedBuddyMemoryAllocator spHeap.c spHeap.h spHeapTester.h testMemory.c)
+add_executable(testSPHeap spHeap.c spHeap.h spHeapTester.h testSPHeap.c)
+add_executable(testOneBin oneBin.c oneBin.h testOneBin.c)
+add_executable(memComparisons memComparisons.c spHeap.c spHeap.h oneBin.h oneBin.c)
