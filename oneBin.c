@@ -5,15 +5,18 @@
 #include "oneBin.h"
 
 
-oneBin* ob_start_kenobi(int memSize){
+oneBin* ob_start_kenobi(int memSize,int minBinSize){
+
     oneBin* out = calloc(1, sizeof(oneBin));
     out->num_chunks=1;
     out->firstFree = malloc(memSize);
     out->total_size = memSize;
-    memChunk* firstchunk = out->firstFree;
-    firstchunk->nextChunk = NULL;
-    firstchunk->prevChunk = NULL;
-    firstchunk->size = memSize;
+    out->total_allocated=0;
+    out->base_address = out->firstFree;
+    memChunk* firstChunk = out->firstFree;
+    firstChunk->nextChunk = NULL;
+    firstChunk->prevChunk = NULL;
+    firstChunk->size = memSize;
     return out;
 }
 
@@ -31,6 +34,7 @@ void* ob_wan_memory(oneBin* ob_heap){
         void* new_address = ob_heap->firstFree+ONEBIN_SIZE;
         ob_heap->firstFree = new_address;
         set_address(new_address,freeMem->size-ONEBIN_SIZE,freeMem->nextChunk,freeMem->prevChunk);
+        ob_heap->total_allocated+=ONEBIN_SIZE;
     }
     else if(freeMem->nextChunk==NULL && freeMem->size<2*ONEBIN_SIZE){
         printf("The Space you Allocated is full. Obi Cannot Wan");
@@ -39,11 +43,82 @@ void* ob_wan_memory(oneBin* ob_heap){
         memChunk* nextMem = freeMem->nextChunk;
         set_address(nextMem,nextMem->size,nextMem->nextChunk,freeMem->prevChunk);
         ob_heap->firstFree = nextMem;
+        ob_heap->total_allocated+=ONEBIN_SIZE;
     }
     return address_to_return;
 }
 
-void* ob_gib_memory(void* ){
+void merge_mem(oneBin* ob, void* obis_memory, void* next_free, void* prev_free){
+    memChunk* this_mem = obis_memory;
+    memChunk* next_mem = next_free;
+    memChunk* prev_mem = prev_free;
 
+    void* this_address = this_mem;
+    void* prev_address = prev_mem;
+    if(this_address + this_mem->size== next_free && prev_address && (prev_address + prev_mem->size == this_address)){
+        prev_mem->size +=this_mem->size + next_mem->size;
+        prev_mem->nextChunk = next_mem->nextChunk;
+        ob->num_chunks-=2;
+    } else if(this_address + this_mem->size== next_free){
+        this_mem->size += next_mem->size;
+        this_mem->nextChunk = next_mem->nextChunk;
+        ob->num_chunks-=1;
+    } else if(prev_address && (prev_address + prev_mem->size == this_address)){
+        prev_mem->size +=this_mem->size;
+        prev_mem->nextChunk = this_mem->nextChunk;
+        ob->num_chunks-=1;
+    }
+}
 
+void ob_gib_memory(oneBin* ob, void* obis_memory){
+    if(obis_memory<ob->base_address||obis_memory>ob->base_address+ob->total_size){
+        printf("Please check the memory location entered!\n");
+        return;
+    }
+    if(obis_memory<ob->firstFree){
+        ob->total_allocated-=ONEBIN_SIZE;
+        memChunk* firstChunk = obis_memory;
+        set_address(obis_memory,ONEBIN_SIZE,ob->firstFree,NULL);
+        memChunk* secondChunk = ob->firstFree;
+        secondChunk->prevChunk = obis_memory;
+        merge_mem(ob,obis_memory,ob->firstFree,NULL);
+        ob->firstFree = obis_memory;
+        ob->num_chunks+=1;
+        return;
+    } else {
+        memChunk* rover = ob->firstFree;
+        while(rover && ((void*)rover)<obis_memory){rover = rover->nextChunk;}
+        if(!rover){
+            printf("That memory was never allocated! Error Error!\n");
+            return;
+        }
+        memChunk* prevChunk = rover->prevChunk;
+        prevChunk->nextChunk = obis_memory;
+        rover->prevChunk = obis_memory;
+        memChunk* thisChunk = obis_memory;
+        thisChunk->prevChunk = prevChunk;
+        thisChunk->nextChunk = rover;
+        thisChunk->size=ONEBIN_SIZE;
+        merge_mem(ob,thisChunk,rover,prevChunk);
+        ob->num_chunks+=1;
+        return;
+
+    }
+}
+
+void lightSaber(oneBin* ob){
+
+    printf("\n----------------------------------------------------------------------------------------------"
+           "\nPrinting OB's Heap"
+           "\nob->total_size=%d,ob->total_allocated=%d,ob->num_chunks=%d"
+           "\nob->base_address=%p,ob->firstFree=%p",
+           ob->total_size,ob->total_allocated,ob->num_chunks,ob->base_address,ob->firstFree);
+    memChunk* rover = ob->firstFree;
+    printf("\n");
+    while(rover){
+        printf("-->rover->size=%d,Current address=%p,next Address=%p,prev Address=%p\n",
+                rover->size,rover,rover->nextChunk,rover->prevChunk);
+        rover = rover->nextChunk;
+    }
+    printf("----------------------------------------------------------------------------------------------\n");
 }
