@@ -1,13 +1,12 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+#include <time.h>
 
 #include "oneBin.h"
 #include "spHeapTester.h"
 
 int main() {
     printf("Hello, World!");
-    oneBin *ob = ob_start_kenobi(256);
+    oneBin *ob = ob_start_kenobi(256,24);
     int *num_space = ob_wan_memory(ob);
     for (int i = 0; i <50; i+=5) {
         *num_space = i;
@@ -68,6 +67,7 @@ int main() {
     printf("some6 address = %p\n",some6);
     lightSaber(ob);
     //All Working
+
 
 
 

@@ -4,19 +4,48 @@
 
 #include "oneBin.h"
 
+unsigned int nextPowerOf2(unsigned int n){
+    unsigned count = 0;
+// First n in the below condition
+// is for the case where n is 0
+    if (n && !(n & (n - 1)))
+        return n;
 
-oneBin* ob_start_kenobi(int memSize,int minBinSize){
+    while(n != 0){
+        n >>= 1u;
+        count += 1;
+    }
+    return 1u << count;
+}
+
+int next_multiple_of8(int n){
+    return ((n/8)+1)*8;
+}
+
+oneBin* ob_start_kenobi(int memSize,int oneBinSize){
+    int memSizeActual = nextPowerOf2((unsigned int)abs(memSize));
+    if(memSize<MINBIN_SIZE){
+        memSizeActual = MINBIN_SIZE;
+    } else if(memSizeActual>536870912){
+        memSizeActual = 536870912;
+    }
+
+    int onebin_actual = next_multiple_of8(oneBinSize);
+    if(oneBinSize<MINBIN_SIZE){onebin_actual=MINBIN_SIZE;}
+    if(oneBinSize>memSizeActual){onebin_actual=memSizeActual;}
 
     oneBin* out = calloc(1, sizeof(oneBin));
     out->num_chunks=1;
-    out->firstFree = malloc(memSize);
-    out->total_size = memSize;
+    out->firstFree = malloc(memSizeActual);
+    out->total_size = memSizeActual;
     out->total_allocated=0;
     out->base_address = out->firstFree;
+    out->onebin_size = onebin_actual;
+
     memChunk* firstChunk = out->firstFree;
     firstChunk->nextChunk = NULL;
     firstChunk->prevChunk = NULL;
-    firstChunk->size = memSize;
+    firstChunk->size = memSizeActual;
     return out;
 }
 
@@ -30,20 +59,21 @@ void set_address(void* mem_location, int size, memChunk* next, memChunk* prev){
 void* ob_wan_memory(oneBin* ob_heap){
     void* address_to_return = ob_heap->firstFree;
     memChunk* freeMem = ob_heap->firstFree;
-    if(freeMem->size >= 2*ONEBIN_SIZE){
-        void* new_address = ob_heap->firstFree+ONEBIN_SIZE;
+    if(freeMem->size >= 2*ob_heap->onebin_size){
+        void* new_address = ob_heap->firstFree+ob_heap->onebin_size;
         ob_heap->firstFree = new_address;
-        set_address(new_address,freeMem->size-ONEBIN_SIZE,freeMem->nextChunk,freeMem->prevChunk);
-        ob_heap->total_allocated+=ONEBIN_SIZE;
+        set_address(new_address,freeMem->size-ob_heap->onebin_size,freeMem->nextChunk,freeMem->prevChunk);
+        ob_heap->total_allocated+=ob_heap->onebin_size;
     }
-    else if(freeMem->nextChunk==NULL && freeMem->size<2*ONEBIN_SIZE){
+    else if(freeMem->nextChunk==NULL && freeMem->size<2*ob_heap->onebin_size){
         printf("The Space you Allocated is full. Obi Cannot Wan");
         return NULL;
-    } else if(freeMem->nextChunk && freeMem->size<2*ONEBIN_SIZE){
+    } else if(freeMem->nextChunk && freeMem->size<2*ob_heap->onebin_size){
         memChunk* nextMem = freeMem->nextChunk;
         set_address(nextMem,nextMem->size,nextMem->nextChunk,freeMem->prevChunk);
         ob_heap->firstFree = nextMem;
-        ob_heap->total_allocated+=ONEBIN_SIZE;
+        ob_heap->total_allocated+=ob_heap->onebin_size;
+        ob_heap->num_chunks-=1;
     }
     return address_to_return;
 }
@@ -76,9 +106,9 @@ void ob_gib_memory(oneBin* ob, void* obis_memory){
         return;
     }
     if(obis_memory<ob->firstFree){
-        ob->total_allocated-=ONEBIN_SIZE;
+        ob->total_allocated-=ob->onebin_size;
         memChunk* firstChunk = obis_memory;
-        set_address(obis_memory,ONEBIN_SIZE,ob->firstFree,NULL);
+        set_address(obis_memory,ob->onebin_size,ob->firstFree,NULL);
         memChunk* secondChunk = ob->firstFree;
         secondChunk->prevChunk = obis_memory;
         merge_mem(ob,obis_memory,ob->firstFree,NULL);
@@ -98,7 +128,7 @@ void ob_gib_memory(oneBin* ob, void* obis_memory){
         memChunk* thisChunk = obis_memory;
         thisChunk->prevChunk = prevChunk;
         thisChunk->nextChunk = rover;
-        thisChunk->size=ONEBIN_SIZE;
+        thisChunk->size=ob->onebin_size;
         merge_mem(ob,thisChunk,rover,prevChunk);
         ob->num_chunks+=1;
         return;
