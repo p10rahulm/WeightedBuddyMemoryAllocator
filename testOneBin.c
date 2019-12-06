@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "oneBin.h"
+#include "oneBinTester.h"
 #include "spHeapTester.h"
 
 int main() {
@@ -107,7 +107,7 @@ int main() {
                 int actual_bin_size = next_multiple_of8(binSize);
                 int actual_mem_size = nextPowerOf2(memSize);
                 int num_bins = actual_mem_size / actual_bin_size - 1;
-                Adobe **adobe_locations = calloc(num_bins, sizeof(Adobe **));
+                Adobe **adobe_locations = calloc(num_bins, sizeof(Adobe *));
                 oneBin *Xiobi = ob_start_kenobi(memSize, binSize);
                 for (int i = 0; i < num_bins; ++i) {
                     adobe_locations[i] = ob_wan_memory(Xiobi);
@@ -117,8 +117,8 @@ int main() {
                     adobe_locations[i]->b = 100 * i + 2;
                     adobe_locations[i]->c = 100 * i + 3;
                 }
-                float intFrag = (float)(actual_bin_size-binSize)/(float)binSize;
-                float extFrag = 1.00-(float)Xiobi->total_allocated/(float)Xiobi->total_size;
+                float intFrag = (float) (actual_bin_size - binSize) / (float) binSize;
+                float extFrag = 1.00 - (float) Xiobi->total_allocated / (float) Xiobi->total_size;
 
                 //for (int i = 0; i < num_bins; ++i) {
                 // printf("For bin %d,a= %d,b= %d,c=%d\n",
@@ -135,7 +135,7 @@ int main() {
                 end = clock();
                 printBin(memSize);
                 printf("\t||\t%d\t||\t%d\t||\t%2.2f%%\t||\t %2.2f %%\t||\t%lims\n",
-                        binSize,trial_no+1,100*intFrag,100*extFrag,end - start);
+                       binSize, trial_no + 1, 100 * intFrag, 100 * extFrag, end - start);
             }
         }
     }

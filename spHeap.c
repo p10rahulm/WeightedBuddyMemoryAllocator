@@ -145,7 +145,8 @@ spHeap *initializeMemory(int heapBytes) {
     int bucket_size_required = heap->memBuckets[last_bucket_num].bucketSizeinB;
     //we use malloc rather than calloc, as we are returning large storage size.
     // Cleaning all of them into 0's may take a long time.
-    heap->memBuckets[last_bucket_num].head->mem_address = malloc(bucket_size_required);
+    heap->baseAddress = malloc(bucket_size_required);
+    heap->memBuckets[last_bucket_num].head->mem_address = heap->baseAddress;
     return heap;
 }
 
@@ -171,21 +172,28 @@ void printHeap(spHeap *inputHeap) {
 
 }
 
-BucketBlock *allocateMemory(spHeap *inputHeap, int spaceRequired) {
+BucketBlock *allocateMemory(spHeap *inputHeap, int spaceRequired, int showErrors) {
     if (spaceRequired > inputHeap->largestBucketSize) {
-        printf("The space you requested: %d is too big\n", spaceRequired);
+        if (showErrors) {
+            printf("The space you requested: %d is too big\n", spaceRequired);
+        }
         return NULL;
     }
     if (spaceRequired < inputHeap->smallestBucketSize) {
-        printf("The space you requested: %d is too small\n", spaceRequired);
+        if (showErrors) {
+            printf("The space you requested: %d is too small\n", spaceRequired);
+        }
         return NULL;
     }
     BucketBlock *bucketHavingSpace = checkSpaceAvailableBucket(inputHeap, spaceRequired);
     if (!bucketHavingSpace) {
-        printf("The space you requested: %d is not available. Sorry!\n", spaceRequired);
-        float percentageFull =
-                (float) inputHeap->stats->total_size_allocated / (float) inputHeap->stats->total_size_of_heap;
-        printf("(%d,%.2f)", spaceRequired, percentageFull);
+        if (showErrors) {
+            printf("The space you requested: %d is not available. Sorry!\n", spaceRequired);
+
+            float percentageFull =
+                    (float) inputHeap->stats->total_size_allocated / (float) inputHeap->stats->total_size_of_heap;
+            printf("(%d,%.2f)", spaceRequired, percentageFull);
+        }
         return NULL;
     }
     BucketBlock *exactBucket = split(inputHeap, bucketHavingSpace, spaceRequired);
@@ -196,7 +204,9 @@ BucketBlock *allocateMemory(spHeap *inputHeap, int spaceRequired) {
         exactBucket->block->memRequest = spaceRequired;
         return exactBucket;
     }
-    printf("Something went wrong.\n");
+    if (showErrors) {
+        printf("Something went wrong.\n");
+    }
     return NULL;
 }
 
@@ -209,11 +219,7 @@ void freeMemory(spHeap *inputHeap, BucketBlock *bucketFreed) {
 }
 
 //Helper Functions Below
-int isPowerOfTwo(int n) {
-    if (n == 0)
-        return 0;
-    return (ceil(log2(n)) == floor(log2(n)));
-}
+
 
 int bucket_num(int memSizeRequired) {
     int corrected_memsize = correctedSize(memSizeRequired);
@@ -284,7 +290,8 @@ spHeap *createMinSPHeap() {
     out->memBuckets[0].numMemBlocks = 1;
     out->memBuckets[0].head = createMemBlock(0, 0, 0, 0, NULL, NULL);
     out->memBuckets[0].tail = out->memBuckets[0].head;
-    out->memBuckets[0].head->mem_address = calloc(1, MIN_ALLOCATABLE_BYTES);
+    out->baseAddress = calloc(1, MIN_ALLOCATABLE_BYTES);
+    out->memBuckets[0].head->mem_address = out->baseAddress;
     return out;
 }
 
@@ -467,7 +474,7 @@ void printStats(spHeap *inputHeap) {
     if (inputHeap->stats->total_size_requested > 0) {
         internal_fragmentation =
                 (float) (inputHeap->stats->total_size_allocated - inputHeap->stats->total_size_requested) /
-                        (float) (inputHeap->stats->total_size_requested);
+                (float) (inputHeap->stats->total_size_requested);
     }
     float percentageFull = 0;
     if (inputHeap->stats->total_size_of_heap > 0) {
@@ -634,6 +641,22 @@ void addBlockToTail(spHeap *inputHeap, int bucket_num, memBlock *memory_block) {
 
     inputHeap->memBuckets[bucket_num].tail = memory_block;
     inputHeap->memBuckets[bucket_num].numMemBlocks += 1;
+}
+
+void freeHeap(spHeap *inputHeap) {
+    free(inputHeap->stats);
+    for (int i = 0; i < inputHeap->num_buckets; ++i) {
+        memBlock *rover = inputHeap->memBuckets[i].head;
+        while (rover) {
+            memBlock *next = rover->next;
+            free(rover);
+            rover = next;
+        }
+    }
+    free(inputHeap->baseAddress);
+    free(inputHeap->memBuckets);
+    free(inputHeap);
+
 }
 
 

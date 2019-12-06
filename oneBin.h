@@ -22,10 +22,6 @@ void* ob_wan_memory(oneBin* ob_heap);
 oneBin* ob_start_kenobi(int memSize,int oneBinSize);
 void ob_free_la_mem(oneBin* ob, void* obis_memory);
 void lightSaber(oneBin* ob);
-int next_multiple_of8(int n);
-unsigned int nextPowerOf2(unsigned int n);
-int two_power(int n);
-void printBin(int memSize);
 void freeB(oneBin*ob);
 
 #endif //WEIGHTEDBUDDYMEMORYALLOCATOR_ONEBIN_H

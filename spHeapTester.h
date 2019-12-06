@@ -3,6 +3,7 @@
 #define WEIGHTEDBUDDYMEMORYALLOCATOR_SPHEAPTESTER_H
 
 #include "spHeap.h"
+#include "helpers.h"
 
 int correctedSize(int memSizeinBytes);
 
