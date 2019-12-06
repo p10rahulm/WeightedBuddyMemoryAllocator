@@ -4,6 +4,28 @@
 
 #include "oneBin.h"
 
+
+void printBin(int memSize){
+    if(memSize<=1024){
+        printf("%8dB",memSize);
+        return;
+    }
+    if(memSize<=1024*1024){
+        printf("%8.2fKB",(float)memSize/1024);
+        return;
+    }
+    printf("%8.2fMB",(float)memSize/1024/1024);
+    return;
+}
+
+int two_power(int n){
+    if(n<0||n>31){
+        printf("Please input valid No.\n");
+        return 0;
+    }
+    return 1u << n;
+}
+
 unsigned int nextPowerOf2(unsigned int n){
     unsigned count = 0;
 // First n in the below condition
@@ -142,9 +164,9 @@ void lightSaber(oneBin* ob){
 
     printf("\n----------------------------------------------------------------------------------------------"
            "\nPrinting OB's Heap"
-           "\nob->total_size=%d,ob->total_allocated=%d,ob->num_chunks=%d"
-           "\nob->base_address=%p,ob->firstFree=%p",
-           ob->total_size,ob->total_allocated,ob->num_chunks,ob->base_address,ob->firstFree);
+           "\nob->total_size=%d\tob->onebin_size=%d\t\tob->total_allocated=%d\tob->num_chunks=%d"
+           "\nob->base_address=%p\tob->firstFree=%p",
+           ob->total_size,ob->onebin_size, ob->total_allocated,ob->num_chunks,ob->base_address,ob->firstFree);
     memChunk* rover = ob->firstFree;
     printf("\n");
     while(rover){
