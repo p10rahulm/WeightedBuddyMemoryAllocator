@@ -29,11 +29,11 @@ int main() {
            "\n------------------------------------------------------------------------");
 
     clock_t start, end;
-    int num_experiments=0;
-    double TotIntFrag=0,TotExtFrag=0,TotAvgMSPerMB=0;
+    int num_experiments=0,timeCount=0;
+    double TotIntFrag=0,TotExtFrag=0,TotMSPerMB=0;
 
 
-    printf("\n\tMemSize\t||\tBin\t||\tCnt\t||\tIntFrag\t||\tExtFrag\t||\tTimeTaken\n");
+    printf("\n\tMemSize\t||\tBin\t||\tCnt\t||\tIntFrag\t||\tExtFrag\t\t||\tTimeTaken\n");
     for (int memPower = minMemSize; memPower <= maxMemSize; memPower += 1) {
         for (int binSize = binmin; binSize <= binmax && binSize <= two_power(memPower); binSize += 4) {
             for (int trial_no = 0; trial_no < num_trials; ++trial_no) {
@@ -69,11 +69,24 @@ int main() {
                 free(adobe_locations);
                 end = clock();
                 printBin(memSize);
-                printf("\t||\t%d\t||\t%d\t||\t%2.2f%%\t||\t %2.2f %%\t||\t%lims\n",
+                printf("\t||\t%d\t||\t%d\t||\t%5.2f%%\t||\t %5.2f %%\t||\t%lims\n",
                        binSize,trial_no+1,intFrag*100,extFrag*100,end - start);
+                num_experiments++;
+                TotIntFrag+=intFrag;
+                TotExtFrag+=extFrag;
+                if(end-start!=0){
+                    TotMSPerMB+=(float)(end-start)/(float)actual_mem_size*(float)(1024*1024);
+                    //printf("TotMSPerMB=%5.2f\n",(float)(end-start)/(float)actual_mem_size*(float)(1024*1024));
+                    timeCount++;
+                }
+
             }
         }
     }
+    printf("The Experiment Statistics are as follows\n");
+    printf("The Average Internal Fragmentation was %6.2f%%\n",TotIntFrag*100/(float)num_experiments);
+    printf("The Average External Fragmentation was %6.2f%%\n",TotExtFrag*100/(float)num_experiments);
+    printf("The Average Time Taken in ms. per MB was %6.2f\n",TotMSPerMB/(float)timeCount);
 
 
 }
