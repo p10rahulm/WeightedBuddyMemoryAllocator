@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 
 #include "oneBin.h"
@@ -39,14 +40,14 @@ int main() {
 
     printf("Now testing freeing\n\n\n");
     printf("\n\nsome1, Freed Memory: %p",some1);
-    ob_gib_memory(ob,some1);
+    ob_free_la_mem(ob,some1);
     lightSaber(ob);
     printf("some2, Freed Memory: %p",some2);
-    ob_gib_memory(ob,some2);
+    ob_free_la_mem(ob,some2);
     lightSaber(ob);
 
     printf("num_space, Freed Memory: %p",num_space);
-    ob_gib_memory(ob,num_space);
+    ob_free_la_mem(ob,num_space);
     lightSaber(ob);
 
 
@@ -60,14 +61,76 @@ int main() {
     struct somestruct* some5 = ob_wan_memory(ob);
     printf("some5 address = %p\n",some5);
     lightSaber(ob);
-    ob_gib_memory(ob,some4);
+    ob_free_la_mem(ob,some4);
     printf("gave up some memory = %p\n",some4);
     lightSaber(ob);
     struct somestruct* some6 = ob_wan_memory(ob);
     printf("some6 address = %p\n",some6);
     lightSaber(ob);
+    freeB(ob);
     //All Working
 
+
+    /*
+     * Doing the loopy loop to output everything!
+     */
+    //First the bounds of the experiment
+    int num_trials = 5;
+    //size of memory in power of 2
+    int minMemSize = 5;
+    int maxMemSize = 28;
+    //size of bin asked
+    int binmin = 24;
+    int binmax = 64;
+
+    typedef struct experimental_structure{
+        int a;
+        int b;
+        int c;
+    } Adobe;
+
+
+    clock_t start, end;
+    double cpu_time_used;
+    for (int trial_no = 0; trial_no < num_trials; ++trial_no) {
+        for (int memSize = minMemSize; memSize <= maxMemSize; memSize+=2) {
+            for (int binSize = binmin; binSize <= binmax; binSize+=2) {
+                start = clock();
+                int actual_bin_size = next_multiple_of8(binSize);
+                int actual_mem_size = nextPowerOf2(memSize);
+                int num_bins = actual_mem_size/actual_bin_size-1;
+                Adobe** adobe_locations = calloc(num_bins, sizeof(Adobe**));
+                oneBin * Xiobi = ob_start_kenobi(memSize,binSize);
+                for (int i = 0; i < num_bins; ++i) {
+                    adobe_locations[i] = ob_wan_memory(Xiobi);
+                }
+                for (int i = 0; i < num_bins; ++i) {
+                    adobe_locations[i]->a=100*i+1;
+                    adobe_locations[i]->b=100*i+2;
+                    adobe_locations[i]->c=100*i+3;
+                }
+                for (int i = 0; i < num_bins; ++i) {
+                    printf("For bin %d,a= %d,b= %d,c=%d\n",i,adobe_locations[i]->a,adobe_locations[i]->b,adobe_locations[i]->c);
+                }
+                for (int i = 0; i < num_bins; ++i) {
+                    ob_free_la_mem(Xiobi,adobe_locations[i]);
+                }
+                lightSaber(Xiobi);
+
+
+
+
+                freeB(Xiobi);
+                free(adobe_locations);
+                end = clock();
+                printf("Time taken on this loop\t%li",end-start);
+            }
+        }
+    }
+
+    start = clock();
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 
 
 

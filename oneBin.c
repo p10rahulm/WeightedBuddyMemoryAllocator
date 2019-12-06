@@ -19,6 +19,8 @@ unsigned int nextPowerOf2(unsigned int n){
 }
 
 int next_multiple_of8(int n){
+    if(n%8==0)
+        return n;
     return ((n/8)+1)*8;
 }
 
@@ -100,7 +102,7 @@ void merge_mem(oneBin* ob, void* obis_memory, void* next_free, void* prev_free){
     }
 }
 
-void ob_gib_memory(oneBin* ob, void* obis_memory){
+void ob_free_la_mem(oneBin* ob, void* obis_memory){
     if(obis_memory<ob->base_address||obis_memory>ob->base_address+ob->total_size){
         printf("Please check the memory location entered!\n");
         return;
@@ -151,4 +153,9 @@ void lightSaber(oneBin* ob){
         rover = rover->nextChunk;
     }
     printf("----------------------------------------------------------------------------------------------\n");
+}
+
+void freeB(oneBin*ob){
+    free(ob->base_address);
+    free(ob);
 }
