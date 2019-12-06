@@ -7,7 +7,7 @@ testSPHeap.out:  testSPHeap.o spHeap.o helpers.o
 	gcc -o testSPHeap.out testSPHeap.o spHeap.o helpers.o -lm
 
 testOneBin.out:  testOneBin.o oneBin.o helpers.o
-	gcc -o testOneBin.out testOneBin.o oneBin.o helpers.o
+	gcc -o testOneBin.out testOneBin.o oneBin.o helpers.o -lm
 
 # now for the dependancies for the above executables
 testSPHeap.o: testSPHeap.c spHeap.h spHeapTester.h

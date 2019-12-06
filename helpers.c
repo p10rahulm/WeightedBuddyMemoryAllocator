@@ -1,6 +1,6 @@
 #include <stdio.h>
+#include <math.h>
 #include "helpers.h"
-#include "math.h"
 
 void printBin(int memSize) {
     if (memSize <= 1024) {

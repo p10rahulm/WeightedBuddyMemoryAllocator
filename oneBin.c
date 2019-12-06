@@ -3,7 +3,7 @@
 #include <math.h>
 
 #include "oneBin.h"
-
+#include "helpers.h"
 
 oneBin *ob_start_kenobi(int memSize, int oneBinSize) {
     int memSizeActual = nextPowerOf2((unsigned int) abs(memSize));

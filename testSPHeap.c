@@ -7,7 +7,7 @@
 #include "spHeapTester.h"
 
 int main() {
-    printf("Hello, World!\nsizeof(int)=%d\n", sizeof(int));
+    printf("Hello, World!\nsizeof(int)=%lu\n", sizeof(int));
     //doing some pointer arithmetic
     int a;
     printf("\na+0:%p", &a);
